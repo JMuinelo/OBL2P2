@@ -33,4 +33,14 @@ public class Sistema {
         
         
     }
+    
+    public boolean validarNombre(String nombre){
+        boolean retorno = true;
+        for(Area ar:this.listaAreas){
+            if(nombre.equals(ar.getNombre())){
+                retorno = false;
+            }
+        }
+        return retorno;
+    }
 }

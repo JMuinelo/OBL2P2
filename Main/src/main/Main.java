@@ -10,7 +10,9 @@ public class Main {
     
     public static void main(String[] args) {
         Sistema modelo = new Sistema();
-        VentanaAltaArea vent = new VentanaAltaArea(modelo);
+        modelo.getListaAreas().add(new Area("Marketing","Desc1",2000));
+        modelo.getListaAreas().add(new Area("Management","Desc2",1500));
+        VentanaModificacionArea vent = new VentanaModificacionArea(modelo);
         vent.setVisible(true);
         
     }
