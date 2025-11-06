@@ -76,5 +76,8 @@ public class Empleado {
         this.setCelular(celular);
         this.setCedula(cedula);
     }
+    public String toString(){
+        return this.nombre;
+    }
     
 }

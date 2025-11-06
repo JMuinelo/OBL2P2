@@ -46,4 +46,5 @@ public class Manager {
         this.setCelular(celular);
         this.setAntiguedad((antiguedad));
     }
+    
 }
