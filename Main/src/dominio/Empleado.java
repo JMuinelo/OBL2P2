@@ -3,7 +3,7 @@ package dominio;
 
 public class Empleado {
     private String nombre;
-    private String curriculum;
+    private String curriculum; //probablemente descartable
     private int salario;
     private Manager manager;
     private Area area;
@@ -67,9 +67,8 @@ public class Empleado {
     }
     
     
-    public Empleado(String nombre, String curriculum, int salario, Manager manager, Area area, String celular, String cedula){
+    public Empleado(String nombre, int salario, Manager manager, Area area, String celular, String cedula){
         this.setNombre(nombre);
-        this.setCurriculum(curriculum);
         this.setSalario(salario);
         this.setManager(manager);
         this.setArea(area);

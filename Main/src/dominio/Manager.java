@@ -46,5 +46,8 @@ public class Manager {
         this.setCelular(celular);
         this.setAntiguedad((antiguedad));
     }
+    public String toString(){
+        return this.nombre;
+    }
     
 }

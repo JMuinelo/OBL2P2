@@ -1,4 +1,3 @@
-
 package interfaz;
 
 import dominio.*;
@@ -6,9 +5,8 @@ import java.util.ArrayList;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JOptionPane;
 
-
 public class VentanaRealMovArea extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaRealMovArea.class.getName());
 
     /**
@@ -18,31 +16,29 @@ public class VentanaRealMovArea extends javax.swing.JFrame {
         modelo = sistema;
         initComponents();
         listaArea.setListData(modelo.getListaAreas().toArray());
-        
-        listaArea.setSelectionModel(new DefaultListSelectionModel(){
+
+        listaArea.setSelectionModel(new DefaultListSelectionModel() {
             @Override
-            public void clearSelection(){
+            public void clearSelection() {
             }
         });
-        
+
         //con este metodo hacemos que no se deseleccione el item de la lista al clickear en otro lado
-        
-        listaAreaDestino.setSelectionModel(new DefaultListSelectionModel(){
+        listaAreaDestino.setSelectionModel(new DefaultListSelectionModel() {
             @Override
-            public void clearSelection(){
-                
+            public void clearSelection() {
+
             }
         });
-        listaEmpleados.setSelectionModel(new DefaultListSelectionModel(){
+        listaEmpleados.setSelectionModel(new DefaultListSelectionModel() {
             @Override
-            public void clearSelection(){
-                
+            public void clearSelection() {
+
             }
         });
 
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -125,36 +121,35 @@ public class VentanaRealMovArea extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(jLabel1))
+                .addGap(20, 20, 20)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(75, 75, 75)
+                .addComponent(jLabel5)
+                .addGap(18, 18, 18)
+                .addComponent(spinnerMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(boton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(115, 115, 115))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(43, 43, 43)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel2))
-                                .addGap(59, 59, 59)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jScrollPane2)
-                                    .addComponent(jLabel3))
-                                .addGap(56, 56, 56)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(32, 32, 32)
-                                .addComponent(jLabel5)
-                                .addGap(18, 18, 18)
-                                .addComponent(spinnerMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(boton, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(3, 3, 3)))))
-                .addContainerGap(64, Short.MAX_VALUE))
+                        .addComponent(jLabel2)
+                        .addGap(59, 59, 59))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2)
+                    .addComponent(jLabel3))
+                .addGap(56, 56, 56)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(92, 92, 92))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,8 +182,8 @@ public class VentanaRealMovArea extends javax.swing.JFrame {
     private void listaAreaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaAreaValueChanged
         Area areaSelec = (Area) listaArea.getSelectedValue();
         ArrayList<Area> listaAux = new ArrayList<>();
-        for(Area area: modelo.getListaAreas()){
-            if(!(area.getNombre().equals(areaSelec.getNombre()))){
+        for (Area area : modelo.getListaAreas()) {
+            if (!(area.getNombre().equals(areaSelec.getNombre()))) {
                 listaAux.add(area);
             }
         }
@@ -197,44 +192,52 @@ public class VentanaRealMovArea extends javax.swing.JFrame {
     }//GEN-LAST:event_listaAreaValueChanged
 
     private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
-        
+
         int mes = (int) spinnerMes.getValue();
         Empleado empleado = (Empleado) listaEmpleados.getSelectedValue();
         Area areaAct = (Area) listaArea.getSelectedValue();
         Area areaDestino = (Area) listaAreaDestino.getSelectedValue();
-        int diferencia = (12-mes)*empleado.getSalario();
-        if(diferencia <= areaDestino.getPresupuestoRestante()){
-            areaDestino.setPresupuestoRestante(areaDestino.getPresupuestoRestante()-diferencia);
-            areaAct.setPresupuestoRestante(areaAct.getPresupuestoRestante()+ diferencia);
-            areaAct.getListaEmpleado().remove(empleado);
-            areaDestino.getListaEmpleado().add(empleado);
-            empleado.setArea(areaDestino);
-            JOptionPane.showMessageDialog(this, "Movimiento realizado con éxito", "Alerta", 2);
-            
-            Area areaSelec = (Area) listaArea.getSelectedValue();
-            ArrayList<Area> listaAux = new ArrayList<>();
-            
-            
-            listaArea.setListData(modelo.getListaAreas().toArray());
-            listaAreaDestino.setListData(listaAux.toArray());
-            listaEmpleados.setListData(areaSelec.getListaEmpleado().toArray());
-            
-            listaArea.clearSelection();
-            //listaEmpleados.clearSelection();
+        int diferencia = (13 - mes) * empleado.getSalario(); //13 para tener en cuenta el salario de enero
 
-        }
-        else{
-            JOptionPane.showMessageDialog(this, "El Área " +areaDestino.getNombre()+" no tiene presupuesto suficiente ", "Alerta", 2);
-        }
-        if(empleado == null || areaAct == null || areaDestino == null){
+        if (empleado == null || areaAct == null || areaDestino == null) {
             JOptionPane.showMessageDialog(this, "Seleccione todos los campos", "Alerta", 2);
+        } else {
+
+            if (diferencia <= areaDestino.getPresupuestoRestante()) {
+                areaDestino.setPresupuestoRestante(areaDestino.getPresupuestoRestante() - diferencia);
+                areaAct.setPresupuestoRestante(areaAct.getPresupuestoRestante() + diferencia);
+                areaAct.getListaEmpleado().remove(empleado);
+                areaDestino.getListaEmpleado().add(empleado);
+                empleado.setArea(areaDestino);
+                JOptionPane.showMessageDialog(this, "Movimiento realizado con éxito", "Aviso", 1);
+
+                Area areaSelec = (Area) listaArea.getSelectedValue();
+                ArrayList<Area> listaAux = new ArrayList<>();
+                ////
+                for (Area area : modelo.getListaAreas()) {
+                    if (!(area.getNombre().equals(areaSelec.getNombre()))) {
+                        listaAux.add(area);
+                    }
+                }
+////
+                listaArea.setListData(modelo.getListaAreas().toArray());
+                listaAreaDestino.setListData(listaAux.toArray());
+                listaEmpleados.setListData(areaSelec.getListaEmpleado().toArray());
+
+                listaArea.clearSelection();
+                //listaEmpleados.clearSelection();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "El Área " + areaDestino.getNombre() + " no tiene presupuesto suficiente ", "Alerta", 2);
+            }
         }
+
+
     }//GEN-LAST:event_botonActionPerformed
 
     private void listaEmpleadosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaEmpleadosValueChanged
     }//GEN-LAST:event_listaEmpleadosValueChanged
-    
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton boton;

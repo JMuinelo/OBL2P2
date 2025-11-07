@@ -43,4 +43,30 @@ public class Sistema {
         }
         return retorno;
     }
+    
+    public boolean cedulaValida(String cedula){
+        boolean retorno = true;
+        
+        for(Empleado emp : this.listaEmpleados){
+            if(emp.getCedula().equals(cedula)){
+                retorno = false;
+            }
+        }
+        
+        for(Manager man : this.listaManagers){
+            if(man.getCedula().equals(cedula)){
+                retorno = false;
+            }
+        }
+        return retorno;
+    }
+    
+    public boolean verificarAtributosVacios(String nombre, String cedula, String celular, String curriculum){
+        //verifica si un conjunto de datos tiene un string vacio
+        boolean valido = true;
+        if(nombre.equals("")||cedula.equals(nombre)||celular.equals("")||curriculum.equals("")){
+            valido = false;
+        }
+        return valido;
+    }
 }

@@ -144,8 +144,13 @@ public class VentanaModificacionArea extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String nuevaDesc = campoDesc.getText();
-        Area area = (Area)listaAreas.getSelectedValue();
-        area.setDescripcion(nuevaDesc);
+        try{
+            Area area = (Area)listaAreas.getSelectedValue();
+            area.setDescripcion(nuevaDesc);
+        }catch( NullPointerException e){
+            JOptionPane.showMessageDialog(this,"Error: Seleccione un Área para cambiar su Descripción","Error",2);
+        }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void listaAreasPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_listaAreasPropertyChange

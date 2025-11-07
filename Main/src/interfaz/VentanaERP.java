@@ -174,7 +174,8 @@ public class VentanaERP extends javax.swing.JFrame {
     }//GEN-LAST:event_areaRealizarMovActionPerformed
 
     private void empleadoAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empleadoAltaActionPerformed
-        
+        VentanaAltaEmpleado vent = new VentanaAltaEmpleado(modelo);
+        vent.setVisible(true);
     }//GEN-LAST:event_empleadoAltaActionPerformed
 
     private void reporteInteligenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reporteInteligenteActionPerformed
