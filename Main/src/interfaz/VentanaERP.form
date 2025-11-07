@@ -25,11 +25,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Alta"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="areaAltaActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="areaBaja">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Baja"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="areaBajaActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="areaRealizarMov">
               <Properties>
@@ -43,6 +49,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Modificaci&#xf3;n"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="areaModifcacionActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

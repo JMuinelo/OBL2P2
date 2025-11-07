@@ -1,13 +1,8 @@
-
 package main;
-
 import dominio.*;
 import interfaz.*;
 
-
 public class Main {
-
-    
     public static void main(String[] args) {
         Sistema modelo = new Sistema();
         
@@ -20,7 +15,7 @@ public class Main {
         modelo.getListaAreas().add(new Area("Management","Desc2",1500));
         
         
-        VentanaRealMovArea vent = new VentanaRealMovArea(modelo);
+        VentanaComenzar vent = new VentanaComenzar(modelo);
         vent.setVisible(true);
         
     }

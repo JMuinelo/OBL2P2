@@ -19,14 +19,14 @@ public class VentanaRealMovArea extends javax.swing.JFrame {
         initComponents();
         listaArea.setListData(modelo.getListaAreas().toArray());
         
-        
-        //con este metodo hacemos que no se deseleccione el item de la lista al clickear en otro lado
         listaArea.setSelectionModel(new DefaultListSelectionModel(){
             @Override
             public void clearSelection(){
-                
             }
         });
+        
+        //con este metodo hacemos que no se deseleccione el item de la lista al clickear en otro lado
+        
         listaAreaDestino.setSelectionModel(new DefaultListSelectionModel(){
             @Override
             public void clearSelection(){
@@ -85,6 +85,11 @@ public class VentanaRealMovArea extends javax.swing.JFrame {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
+        });
+        listaEmpleados.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listaEmpleadosValueChanged(evt);
+            }
         });
         jScrollPane2.setViewportView(listaEmpleados);
 
@@ -189,29 +194,45 @@ public class VentanaRealMovArea extends javax.swing.JFrame {
         }
         listaAreaDestino.setListData(listaAux.toArray());
         listaEmpleados.setListData(areaSelec.getListaEmpleado().toArray());
-        
     }//GEN-LAST:event_listaAreaValueChanged
 
     private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
+        
         int mes = (int) spinnerMes.getValue();
         Empleado empleado = (Empleado) listaEmpleados.getSelectedValue();
         Area areaAct = (Area) listaArea.getSelectedValue();
         Area areaDestino = (Area) listaAreaDestino.getSelectedValue();
         int diferencia = (12-mes)*empleado.getSalario();
-        
-        if(diferencia<= areaDestino.getPresupuestoRestante()){
+        if(diferencia <= areaDestino.getPresupuestoRestante()){
             areaDestino.setPresupuestoRestante(areaDestino.getPresupuestoRestante()-diferencia);
             areaAct.setPresupuestoRestante(areaAct.getPresupuestoRestante()+ diferencia);
             areaAct.getListaEmpleado().remove(empleado);
             areaDestino.getListaEmpleado().add(empleado);
             empleado.setArea(areaDestino);
-        }else{
+            JOptionPane.showMessageDialog(this, "Movimiento realizado con éxito", "Alerta", 2);
+            
+            Area areaSelec = (Area) listaArea.getSelectedValue();
+            ArrayList<Area> listaAux = new ArrayList<>();
+            
+            
+            listaArea.setListData(modelo.getListaAreas().toArray());
+            listaAreaDestino.setListData(listaAux.toArray());
+            listaEmpleados.setListData(areaSelec.getListaEmpleado().toArray());
+            
+            listaArea.clearSelection();
+            //listaEmpleados.clearSelection();
+
+        }
+        else{
             JOptionPane.showMessageDialog(this, "El Área " +areaDestino.getNombre()+" no tiene presupuesto suficiente ", "Alerta", 2);
         }
-
-        
+        if(empleado == null || areaAct == null || areaDestino == null){
+            JOptionPane.showMessageDialog(this, "Seleccione todos los campos", "Alerta", 2);
+        }
     }//GEN-LAST:event_botonActionPerformed
 
+    private void listaEmpleadosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaEmpleadosValueChanged
+    }//GEN-LAST:event_listaEmpleadosValueChanged
     
     
 

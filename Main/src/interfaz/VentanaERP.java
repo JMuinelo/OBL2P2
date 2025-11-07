@@ -1,13 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package interfaz;
+import dominio.*;
 
-/**
- *
- * @author Toto
- */
 public class VentanaERP extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaERP.class.getName());
@@ -15,7 +8,8 @@ public class VentanaERP extends javax.swing.JFrame {
     /**
      * Creates new form VentanaERP
      */
-    public VentanaERP() {
+    public VentanaERP(Sistema sistema) {
+        modelo = sistema;
         initComponents();
     }
 
@@ -81,9 +75,19 @@ public class VentanaERP extends javax.swing.JFrame {
         menuAreas.setText("Áreas");
 
         areaAlta.setText("Alta");
+        areaAlta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                areaAltaActionPerformed(evt);
+            }
+        });
         menuAreas.add(areaAlta);
 
         areaBaja.setText("Baja");
+        areaBaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                areaBajaActionPerformed(evt);
+            }
+        });
         menuAreas.add(areaBaja);
 
         areaRealizarMov.setText("Realizar Movimiento");
@@ -95,6 +99,11 @@ public class VentanaERP extends javax.swing.JFrame {
         menuAreas.add(areaRealizarMov);
 
         areaModifcacion.setText("Modificación");
+        areaModifcacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                areaModifcacionActionPerformed(evt);
+            }
+        });
         menuAreas.add(areaModifcacion);
 
         jMenuBar2.add(menuAreas);
@@ -160,42 +169,37 @@ public class VentanaERP extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void areaRealizarMovActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_areaRealizarMovActionPerformed
-        // TODO add your handling code here:
+        VentanaRealMovArea vAlta = new VentanaRealMovArea(modelo);
+        vAlta.setVisible(true);
     }//GEN-LAST:event_areaRealizarMovActionPerformed
 
     private void empleadoAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_empleadoAltaActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_empleadoAltaActionPerformed
 
     private void reporteInteligenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reporteInteligenteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_reporteInteligenteActionPerformed
 
+    private void areaAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_areaAltaActionPerformed
+        VentanaAltaArea vAlta = new VentanaAltaArea(modelo);
+        vAlta.setVisible(true);
+    }//GEN-LAST:event_areaAltaActionPerformed
+
+    private void areaBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_areaBajaActionPerformed
+        VentanaBajaArea vAlta = new VentanaBajaArea(modelo);
+        vAlta.setVisible(true);
+    }//GEN-LAST:event_areaBajaActionPerformed
+
+    private void areaModifcacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_areaModifcacionActionPerformed
+        VentanaModificacionArea vAlta = new VentanaModificacionArea(modelo);
+        vAlta.setVisible(true);
+    }//GEN-LAST:event_areaModifcacionActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new VentanaERP().setVisible(true));
-    }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem areaAlta;
     private javax.swing.JMenuItem areaBaja;
@@ -219,4 +223,5 @@ public class VentanaERP extends javax.swing.JFrame {
     private javax.swing.JMenuItem reporteInteligente;
     private javax.swing.JMenuItem reporteMovimientos;
     // End of variables declaration//GEN-END:variables
+    private Sistema modelo;
 }

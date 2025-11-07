@@ -2,6 +2,7 @@
 package interfaz;
 
 import dominio.*;
+import java.util.ArrayList;
 
 
 public class VentanaBajaArea extends javax.swing.JFrame {
@@ -14,7 +15,7 @@ public class VentanaBajaArea extends javax.swing.JFrame {
     public VentanaBajaArea(Sistema sistema) {
         modelo = sistema;
         initComponents();
-        listaAreas.setListData(modelo.getListaAreas().toArray());
+        listaAreas.setListData(listaAreasVacias(modelo).toArray());
     }
 
     
@@ -92,14 +93,24 @@ public class VentanaBajaArea extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
+        
         Area areaSelec = (Area)listaAreas.getSelectedValue();
         if(areaSelec!=null){
             modelo.getListaAreas().remove(areaSelec);
+            
         }
-        listaAreas.setListData(modelo.getListaAreas().toArray());
+        listaAreas.setListData(listaAreasVacias(modelo).toArray());
     }//GEN-LAST:event_botonActionPerformed
 
-    
+    public static ArrayList<Area> listaAreasVacias(Sistema modelo){
+        ArrayList<Area> lista = new ArrayList<>();
+        for(Area area: modelo.getListaAreas()){
+            if(area.getListaEmpleado().size() == 0){
+                lista.add(area);
+            }
+        }
+        return lista;
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

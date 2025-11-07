@@ -47,11 +47,16 @@ public class Area {
         return listaEmpleados;
     }
 
+    public void agregarEmpleadoAlArea(Empleado empleado){
+        this.getListaEmpleado().add(empleado);
+        this.setPresupuestoRestante(this.getPresupuestoRestante() - 12 * empleado.getSalario());
+    }
     
     public Area(String nombre, String descripcion, int presupuesto){
         this.setNombre(nombre);
         this.setDescripcion(descripcion);
         this.setPresupuestoAnual(presupuesto);
+        this.setPresupuestoRestante(presupuesto);
         this.listaEmpleados = new ArrayList<Empleado>();
     }
     
