@@ -147,7 +147,8 @@ public class VentanaModificacionArea extends javax.swing.JFrame {
         try{
             Area area = (Area)listaAreas.getSelectedValue();
             area.setDescripcion(nuevaDesc);
-        }catch( NullPointerException e){
+        }
+        catch( NullPointerException e){
             JOptionPane.showMessageDialog(this,"Error: Seleccione un Área para cambiar su Descripción","Error",2);
         }
         

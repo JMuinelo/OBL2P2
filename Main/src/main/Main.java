@@ -13,7 +13,7 @@ public class Main {
         area.getListaEmpleado().add(new Empleado("Pedro",100,manager,area,"1111","1111"));
         */
         
-        Manager manager = new Manager("Nombre","11111111","2221212",2);
+        Manager manager = new Manager("Jorge","11111111","2221212",2);
         modelo.getListaManagers().add(manager);
         
         Area area = new Area("Marketing","Desc1",2000);

@@ -3,6 +3,7 @@ package interfaz;
 
 import dominio.*;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 
 public class VentanaBajaArea extends javax.swing.JFrame {
@@ -97,8 +98,8 @@ public class VentanaBajaArea extends javax.swing.JFrame {
         Area areaSelec = (Area)listaAreas.getSelectedValue();
         if(areaSelec!=null){
             modelo.getListaAreas().remove(areaSelec);
-            
         }
+        JOptionPane.showMessageDialog(this, "Se ha eliminado correctamente el area indicada", "Aviso", 1);
         listaAreas.setListData(listaAreasVacias(modelo).toArray());
     }//GEN-LAST:event_botonActionPerformed
 

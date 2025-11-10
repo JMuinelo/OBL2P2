@@ -61,6 +61,6 @@ public class Area {
     }
     
     public String toString(){
-        return this.nombre + " (" + this.presupuestoRestante + ") ";
+        return this.nombre + " ($" + this.presupuestoRestante + ") de $" + this.presupuestoAnual;
     }
 }

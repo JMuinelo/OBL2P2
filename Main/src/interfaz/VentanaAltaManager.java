@@ -5,12 +5,12 @@ import java.util.Collections;
 import javax.swing.*;
 
 
-public class VentanaManagerAlta extends javax.swing.JFrame {
+public class VentanaAltaManager extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaManagerAlta.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaAltaManager.class.getName());
 
     
-    public VentanaManagerAlta(Sistema sistema) {
+    public VentanaAltaManager(Sistema sistema) {
         modelo = sistema;
         initComponents();
         //para que no aparezcan item1 item2
@@ -83,21 +83,17 @@ public class VentanaManagerAlta extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel2)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(16, 16, 16)
-                                                .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jLabel2)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(16, 16, 16)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel3)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(campoCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                            .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel3)
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(campoCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,14 +155,15 @@ public class VentanaManagerAlta extends javax.swing.JFrame {
         String celular = campoCelular.getText();
         int antiguedad = (int) spinnerAnt.getValue();
         
-        if(nombre.equals("")||cedula.equals("")||celular.equals("")||!modelo.cedulaValida(cedula)){
-            JOptionPane.showMessageDialog(this, "Error, hay datos inválidos \n(Campos vacíos, cedula repetida, etc.\n Por favor, reingrese.)","Error",2);
-        }else{
+        if(!modelo.esUnNumero(cedula) || nombre.equals("")||cedula.equals("")||celular.equals("")||!modelo.cedulaValida(cedula)){
+            JOptionPane.showMessageDialog(this, "Error: datos ingresados incorrectamente. Por favor, reingrese:","Error",2);
+        }
+        else{
             //crear manager, tmb falta ordenar por antiguedad
             modelo.getListaManagers().add(new  Manager(nombre, cedula,celular,antiguedad));
             Collections.sort(modelo.getListaManagers());
             listaManagers.setListData(modelo.getListaManagers().toArray());
-            
+            JOptionPane.showMessageDialog(this, "Se ha ingresado correctamente el Manager", "Aviso", 1);
         }
     }//GEN-LAST:event_botonActionPerformed
 

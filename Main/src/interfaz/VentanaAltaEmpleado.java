@@ -194,7 +194,6 @@ public class VentanaAltaEmpleado extends javax.swing.JFrame {
 
     private void listaEmpleadosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaEmpleadosValueChanged
         Empleado empleado = (Empleado) listaEmpleados.getSelectedValue();
-
         if (empleado != null) {
             campoNombre.setText(empleado.getNombre());
             campoCedula.setText(empleado.getCedula());
@@ -203,7 +202,6 @@ public class VentanaAltaEmpleado extends javax.swing.JFrame {
             comboArea.setSelectedItem(empleado.getArea());
             comboManager.setSelectedItem(empleado.getManager());
         }
-
     }//GEN-LAST:event_listaEmpleadosValueChanged
 
     private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
@@ -218,13 +216,13 @@ public class VentanaAltaEmpleado extends javax.swing.JFrame {
         //FALTA BAJAR Y CARGAR CURRICULUM DEL TXT
         String curriculum = areaCurriculum.getText();
         //HAY QUE VER COMO EDITAR ARCHIVOS DE TEXTO CON LA CLASE CUSTOM ARCHIVOLECTURA, ARCHIVOGRABAR
-        if (salario > 0 && modelo.cedulaValida(cedula)&&modelo.verificarAtributosVacios(nombre,cedula,celular,curriculum)) {
-            
-            Empleado empleado = new Empleado(nombre, salario, manager, area, celular, cedula);
-
-            if (area.getPresupuestoRestante() < empleado.getSalario() * 12) {
-                JOptionPane.showMessageDialog(this, "Error: el Área donde quiere ingresar el empleado no tiene suficiente presupuesto para pagarle un año", "Error", 2);
-            } else {
+        
+        if (modelo.esUnNumero(cedula) && salario > 0 && modelo.cedulaValida(cedula)&& modelo.verificarAtributosVacios(nombre,cedula,celular,curriculum)) {
+            if (area.getPresupuestoRestante() < salario * 12) {
+                JOptionPane.showMessageDialog(this, "Error: Área con presupuesto insuficiente", "Error", 2);
+            } 
+            else {
+                Empleado empleado = new Empleado(nombre, salario, manager, area, celular, cedula);
                 area.getListaEmpleado().add(empleado);
                 modelo.getListaEmpleados().add(empleado);
                 area.setPresupuestoRestante(area.getPresupuestoRestante()- empleado.getSalario()*12);
@@ -237,23 +235,26 @@ public class VentanaAltaEmpleado extends javax.swing.JFrame {
                 campoSalario.setText("");
                 areaCurriculum.setText("");
             }
-        }else{
-            JOptionPane.showMessageDialog(this, "Error: Hay datos erróneos \n (Campos vacíos, cédula repetida, salario invalido, etc)\n Por favor, reingrese.", "Error", 2);
-
         }
-
+        else{
+            if(!modelo.cedulaValida(cedula)){
+                JOptionPane.showMessageDialog(this, "Error: La cedula no puede ser igual a una de la de los Managers. Por favor, reingrese:", "Error", 2);
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Error: datos ingresados incorrectamente. Por favor, reingrese:", "Error", 2);
+            }
+        }
         listaEmpleados.setListData(modelo.getListaEmpleados().toArray());
         comboArea.setModel(new javax.swing.DefaultComboBoxModel<>(modelo.getListaAreas().toArray()));
-
     }//GEN-LAST:event_botonActionPerformed
 
     private void boton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton2ActionPerformed
-            //limpio los forms
-                campoNombre.setText("");
-                campoCedula.setText("");
-                campoCelular.setText("");
-                campoSalario.setText("");
-                areaCurriculum.setText("");        
+        //limpio los forms
+        campoNombre.setText("");
+        campoCedula.setText("");
+        campoCelular.setText("");
+        campoSalario.setText("");
+        areaCurriculum.setText("");        
     }//GEN-LAST:event_boton2ActionPerformed
 
 

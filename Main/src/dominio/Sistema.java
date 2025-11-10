@@ -30,8 +30,6 @@ public class Sistema {
         this.listaEmpleados = new ArrayList<>();
         this.listaManagers = new ArrayList<>();
         this.listaMovimientos = new ArrayList<>();
-        
-        
     }
     
     public boolean validarNombre(String nombre){
@@ -46,13 +44,11 @@ public class Sistema {
     
     public boolean cedulaValida(String cedula){
         boolean retorno = true;
-        
         for(Empleado emp : this.listaEmpleados){
             if(emp.getCedula().equals(cedula)){
                 retorno = false;
             }
         }
-        
         for(Manager man : this.listaManagers){
             if(man.getCedula().equals(cedula)){
                 retorno = false;
@@ -68,5 +64,16 @@ public class Sistema {
             valido = false;
         }
         return valido;
+    }
+    
+    public boolean esUnNumero(String numero){
+        boolean valida = true;
+        try{
+            int numValido = Integer.parseInt(numero);
+        } 
+        catch (NumberFormatException e){
+            valida = false;
+        }
+        return valida;
     }
 }

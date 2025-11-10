@@ -119,7 +119,6 @@ public class VentanaAltaArea extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
-        
         String nombre = campoNombre.getText();
            String desc = campoDescripcion.getText();
            int presupuesto;
@@ -128,16 +127,15 @@ public class VentanaAltaArea extends javax.swing.JFrame {
                if(presupuesto > 0&& modelo.validarNombre(nombre)){
                    Area area = new Area(nombre, desc, presupuesto);
                    modelo.getListaAreas().add(area);
-               }else{
-                JOptionPane.showMessageDialog(this,"El presupuesto debe ser mayor a 0 y el nombre debe ser único","Error",2);
                }
-           }catch(NumberFormatException e){
+               else{
+                   JOptionPane.showMessageDialog(this,"El presupuesto debe ser mayor a 0 y el nombre debe ser único","Error",2);
+               }
+           }
+           catch(NumberFormatException e){
                JOptionPane.showMessageDialog(this,"Solo se admiten Numeros en el campo Presupuesto","Error",2);
            }
            listaAreas.setListData(modelo.getListaAreas().toArray());
-           
-                      
-
     }//GEN-LAST:event_botonActionPerformed
 
     
