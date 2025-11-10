@@ -1,8 +1,8 @@
 package interfaz;
 
 import dominio.*;
-import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
+import java.util.Collections;
+import javax.swing.*;
 
 
 public class VentanaManagerAlta extends javax.swing.JFrame {
@@ -159,10 +159,14 @@ public class VentanaManagerAlta extends javax.swing.JFrame {
         String celular = campoCelular.getText();
         int antiguedad = (int) spinnerAnt.getValue();
         
-        if(nombre.equals("")||cedula.equals("")||celular.equals("")||modelo.cedulaValida(cedula)){
+        if(nombre.equals("")||cedula.equals("")||celular.equals("")||!modelo.cedulaValida(cedula)){
             JOptionPane.showMessageDialog(this, "Error, hay datos inválidos \n(Campos vacíos, cedula repetida, etc.\n Por favor, reingrese.)","Error",2);
         }else{
             //crear manager, tmb falta ordenar por antiguedad
+            modelo.getListaManagers().add(new  Manager(nombre, cedula,celular,antiguedad));
+            Collections.sort(modelo.getListaManagers());
+            listaManagers.setListData(modelo.getListaManagers().toArray());
+            
         }
     }//GEN-LAST:event_botonActionPerformed
 

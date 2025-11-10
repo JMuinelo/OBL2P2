@@ -111,6 +111,11 @@ public class VentanaERP extends javax.swing.JFrame {
         menuManagers.setText("Managers");
 
         managerAlta.setText("Alta");
+        managerAlta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                managerAltaActionPerformed(evt);
+            }
+        });
         menuManagers.add(managerAlta);
 
         managerBaja.setText("Baja");
@@ -196,6 +201,11 @@ public class VentanaERP extends javax.swing.JFrame {
         VentanaModificacionArea vAlta = new VentanaModificacionArea(modelo);
         vAlta.setVisible(true);
     }//GEN-LAST:event_areaModifcacionActionPerformed
+
+    private void managerAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_managerAltaActionPerformed
+        VentanaManagerAlta vent = new VentanaManagerAlta(modelo);
+        vent.setVisible(true);
+    }//GEN-LAST:event_managerAltaActionPerformed
 
     /**
      * @param args the command line arguments

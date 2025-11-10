@@ -1,8 +1,7 @@
-
 package dominio;
 
 
-public class Manager {
+public class Manager implements Comparable<Manager>{
     private String nombre;
     private String cedula;
     private String celular;
@@ -49,5 +48,12 @@ public class Manager {
     public String toString(){
         return this.nombre;
     }
+    
+    @Override
+    public int compareTo(Manager unManager){
+        //decreciente
+        return unManager.antiguedad-this.antiguedad;
+    }
+
     
 }
