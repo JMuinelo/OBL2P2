@@ -8,6 +8,7 @@ public class VentanaERP extends javax.swing.JFrame {
     public VentanaERP(Sistema sistema) {
         modelo = sistema;
         initComponents();
+        
     }
 
     @SuppressWarnings("unchecked")

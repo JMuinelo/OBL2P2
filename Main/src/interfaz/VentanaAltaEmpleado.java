@@ -1,6 +1,7 @@
 package interfaz;
 
 import dominio.*;
+import grabarLeer.*;
 import javax.swing.JOptionPane;
 
 public class VentanaAltaEmpleado extends javax.swing.JFrame {
@@ -201,6 +202,11 @@ public class VentanaAltaEmpleado extends javax.swing.JFrame {
             campoSalario.setText(empleado.getSalario() + "");
             comboArea.setSelectedItem(empleado.getArea());
             comboManager.setSelectedItem(empleado.getManager());
+            
+            String nombreArch = "CV"+empleado.getCedula()+".txt";
+            ArchivoLectura curr = new ArchivoLectura(nombreArch);
+            curr.hayMasLineas();
+            areaCurriculum.setText(curr.linea());
         }
     }//GEN-LAST:event_listaEmpleadosValueChanged
 
@@ -215,6 +221,10 @@ public class VentanaAltaEmpleado extends javax.swing.JFrame {
 
         //FALTA BAJAR Y CARGAR CURRICULUM DEL TXT
         String curriculum = areaCurriculum.getText();
+        String nombreArch ="CV"+cedula+".txt";
+        ArchivoGrabacion archCurriculum = new ArchivoGrabacion(nombreArch);
+        archCurriculum.grabarLinea(curriculum);
+        archCurriculum.cerrar();
         //HAY QUE VER COMO EDITAR ARCHIVOS DE TEXTO CON LA CLASE CUSTOM ARCHIVOLECTURA, ARCHIVOGRABAR
         
         if (modelo.esUnNumero(cedula) && salario > 0 && modelo.cedulaValida(cedula)&& modelo.verificarAtributosVacios(nombre,cedula,celular,curriculum)) {

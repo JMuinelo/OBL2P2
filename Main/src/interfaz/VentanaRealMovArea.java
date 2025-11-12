@@ -197,7 +197,7 @@ public class VentanaRealMovArea extends javax.swing.JFrame {
         Empleado empleado = (Empleado) listaEmpleados.getSelectedValue();
         Area areaAct = (Area) listaArea.getSelectedValue();
         Area areaDestino = (Area) listaAreaDestino.getSelectedValue();
-        int diferencia = (13 - mes) * empleado.getSalario(); //13 para tener en cuenta el salario de enero
+        int diferencia = (13 - mes) * empleado.getSalario(); //13 para tener en cuenta el salario del mes actual
 
         if (empleado == null || areaAct == null || areaDestino == null) {
             JOptionPane.showMessageDialog(this, "Seleccione todos los campos", "Alerta", 2);
@@ -210,6 +210,8 @@ public class VentanaRealMovArea extends javax.swing.JFrame {
                 areaDestino.getListaEmpleado().add(empleado);
                 empleado.setArea(areaDestino);
                 JOptionPane.showMessageDialog(this, "Movimiento realizado con éxito", "Aviso", 1);
+                Movimiento movimiento = new Movimiento(mes,areaAct.getNombre(),areaDestino.getNombre(),empleado.getNombre());
+                modelo.getListaMovimientos().add(movimiento);
 
                 Area areaSelec = (Area) listaArea.getSelectedValue();
                 ArrayList<Area> listaAux = new ArrayList<>();

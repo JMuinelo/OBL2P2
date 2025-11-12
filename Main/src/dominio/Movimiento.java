@@ -2,7 +2,7 @@
 package dominio;
 
 
-public class Movimiento {
+public class Movimiento implements Comparable<Movimiento>{
     private int mes;
     private String areaOrigen;
     private String areaDestino;
@@ -45,6 +45,13 @@ public class Movimiento {
         this.areaOrigen = areaOrigen;
         this.areaDestino = areaDestino;
         this.nombreEmpleado = nombreEmpleado;
+    }
+    
+    
+
+    @Override
+    public int compareTo(Movimiento mov) {
+        return this.getMes()-mov.getMes();
     }
     
     

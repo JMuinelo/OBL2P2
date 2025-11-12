@@ -21,7 +21,7 @@ public class Main {
         modelo.getListaAreas().add(new Area("Management","Desc2",1500));
         
         
-        VentanaComenzar vent = new VentanaComenzar(modelo);
+        VentanaInicial vent = new VentanaInicial(modelo);
         vent.setVisible(true);
         
     }
