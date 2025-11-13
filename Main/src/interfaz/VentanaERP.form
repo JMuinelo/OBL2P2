@@ -118,6 +118,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Reporte de Estado de &#xc1;reas"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="reporteEstadoAreasActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="reporteMovimientos">
               <Properties>

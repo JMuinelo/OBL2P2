@@ -2,6 +2,8 @@ package interfaz;
 
 import dominio.*;
 import grabarLeer.*;
+import java.io.File;
+import java.util.Collections;
 import javax.swing.JOptionPane;
 
 public class VentanaAltaEmpleado extends javax.swing.JFrame {
@@ -11,6 +13,7 @@ public class VentanaAltaEmpleado extends javax.swing.JFrame {
     public VentanaAltaEmpleado(Sistema sistema) {
         modelo = sistema;
         initComponents();
+        Collections.sort(modelo.getListaEmpleados());
         listaEmpleados.setListData(modelo.getListaEmpleados().toArray());
         comboArea.setModel(new javax.swing.DefaultComboBoxModel<>(modelo.getListaAreas().toArray()));
         comboManager.setModel(new javax.swing.DefaultComboBoxModel<>(modelo.getListaManagers().toArray()));
@@ -202,9 +205,9 @@ public class VentanaAltaEmpleado extends javax.swing.JFrame {
             campoSalario.setText(empleado.getSalario() + "");
             comboArea.setSelectedItem(empleado.getArea());
             comboManager.setSelectedItem(empleado.getManager());
-            
-            String nombreArch = "CV"+empleado.getCedula()+".txt";
-            ArchivoLectura curr = new ArchivoLectura(nombreArch);
+
+            String nombreArch = "CV" + empleado.getCedula() + ".txt";
+            ArchivoLectura curr = new ArchivoLectura(System.getProperty("user.dir") + File.separator + "cvs"+"/"+nombreArch);
             curr.hayMasLineas();
             areaCurriculum.setText(curr.linea());
         }
@@ -219,23 +222,26 @@ public class VentanaAltaEmpleado extends javax.swing.JFrame {
         Area area = (Area) comboArea.getSelectedItem();
         Manager manager = (Manager) comboManager.getSelectedItem();
 
-        //FALTA BAJAR Y CARGAR CURRICULUM DEL TXT
+        File cvs = new File(System.getProperty("user.dir") + File.separator + "cvs");
+        
+        if (!cvs.exists()) {
+            cvs.mkdir();
+            //si no existe el directorio cvs lo crea;
+        }
         String curriculum = areaCurriculum.getText();
-        String nombreArch ="CV"+cedula+".txt";
-        ArchivoGrabacion archCurriculum = new ArchivoGrabacion(nombreArch);
+        String nombreArch = "CV" + cedula + ".txt";
+        ArchivoGrabacion archCurriculum = new ArchivoGrabacion(System.getProperty("user.dir") + File.separator + "cvs"+"/"+nombreArch);
         archCurriculum.grabarLinea(curriculum);
         archCurriculum.cerrar();
-        //HAY QUE VER COMO EDITAR ARCHIVOS DE TEXTO CON LA CLASE CUSTOM ARCHIVOLECTURA, ARCHIVOGRABAR
-        
-        if (modelo.esUnNumero(cedula) && salario > 0 && modelo.cedulaValida(cedula)&& modelo.verificarAtributosVacios(nombre,cedula,celular,curriculum)) {
+
+        if (modelo.esUnNumero(cedula) && salario > 0 && modelo.cedulaValida(cedula) && modelo.verificarAtributosVacios(nombre, cedula, celular, curriculum)) {
             if (area.getPresupuestoRestante() < salario * 12) {
                 JOptionPane.showMessageDialog(this, "Error: Área con presupuesto insuficiente", "Error", 2);
-            } 
-            else {
+            } else {
                 Empleado empleado = new Empleado(nombre, salario, manager, area, celular, cedula);
                 area.getListaEmpleado().add(empleado);
                 modelo.getListaEmpleados().add(empleado);
-                area.setPresupuestoRestante(area.getPresupuestoRestante()- empleado.getSalario()*12);
+                area.setPresupuestoRestante(area.getPresupuestoRestante() - empleado.getSalario() * 12);
                 JOptionPane.showMessageDialog(this, "Se ha ingresado correctamente el Empleado", "Aviso", 1);
 
                 //limpio los forms
@@ -245,15 +251,14 @@ public class VentanaAltaEmpleado extends javax.swing.JFrame {
                 campoSalario.setText("");
                 areaCurriculum.setText("");
             }
-        }
-        else{
-            if(!modelo.cedulaValida(cedula)){
+        } else {
+            if (!modelo.cedulaValida(cedula)) {
                 JOptionPane.showMessageDialog(this, "Error: La cedula no puede ser igual a una de la de los Managers. Por favor, reingrese:", "Error", 2);
-            }
-            else{
+            } else {
                 JOptionPane.showMessageDialog(this, "Error: datos ingresados incorrectamente. Por favor, reingrese:", "Error", 2);
             }
         }
+        Collections.sort(modelo.getListaEmpleados());
         listaEmpleados.setListData(modelo.getListaEmpleados().toArray());
         comboArea.setModel(new javax.swing.DefaultComboBoxModel<>(modelo.getListaAreas().toArray()));
     }//GEN-LAST:event_botonActionPerformed
@@ -264,7 +269,7 @@ public class VentanaAltaEmpleado extends javax.swing.JFrame {
         campoCedula.setText("");
         campoCelular.setText("");
         campoSalario.setText("");
-        areaCurriculum.setText("");        
+        areaCurriculum.setText("");
     }//GEN-LAST:event_boton2ActionPerformed
 
 

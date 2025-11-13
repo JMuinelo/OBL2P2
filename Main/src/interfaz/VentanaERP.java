@@ -152,6 +152,11 @@ public class VentanaERP extends javax.swing.JFrame {
         menuReportes.add(reporteInteligente);
 
         reporteEstadoAreas.setText("Reporte de Estado de Áreas");
+        reporteEstadoAreas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reporteEstadoAreasActionPerformed(evt);
+            }
+        });
         menuReportes.add(reporteEstadoAreas);
 
         reporteMovimientos.setText("Reporte de Movimientos");
@@ -219,6 +224,11 @@ public class VentanaERP extends javax.swing.JFrame {
         VentanaModificacionManager vModificacionManager = new VentanaModificacionManager(modelo);
         vModificacionManager.setVisible(true);
     }//GEN-LAST:event_managerModificacionActionPerformed
+
+    private void reporteEstadoAreasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reporteEstadoAreasActionPerformed
+        VentanaReporteEstado vent = new VentanaReporteEstado(modelo);
+        vent.setVisible(true);
+    }//GEN-LAST:event_reporteEstadoAreasActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

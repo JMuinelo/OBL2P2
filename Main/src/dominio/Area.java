@@ -4,7 +4,7 @@ package dominio;
 import java.util.ArrayList;
 
 
-public class Area {
+public class Area implements Comparable<Area>{
     private String nombre;
     private String descripcion;
     private int presupuestoAnual;
@@ -62,5 +62,10 @@ public class Area {
     
     public String toString(){
         return this.nombre + " ($" + this.presupuestoRestante + ") de $" + this.presupuestoAnual;
+    }
+
+    @Override
+    public int compareTo(Area o) {
+        return (int) Math.floor((o.presupuestoAnual-o.presupuestoRestante)/o.presupuestoAnual-this.presupuestoRestante/o.presupuestoRestante);
     }
 }

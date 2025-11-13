@@ -1,7 +1,7 @@
 package dominio;
 
 
-public class Empleado {
+public class Empleado implements Comparable<Empleado>{
     private String nombre;
     private String curriculum; //probablemente descartable
     private int salario;
@@ -77,6 +77,11 @@ public class Empleado {
     }
     public String toString(){
         return this.nombre;
+    }
+
+    @Override
+    public int compareTo(Empleado o) {
+        return this.salario -o.salario;
     }
     
 }
