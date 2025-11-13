@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 public class VentanaReporteEstado extends javax.swing.JFrame {
 
@@ -38,7 +39,14 @@ public class VentanaReporteEstado extends javax.swing.JFrame {
 
         scrollPaneArea.setViewportView(panelContenedor);
 
-        panelDeBotones.setLayout(new java.awt.GridLayout(3, 0));
+        panelContenedorDeBotones.setMaximumSize(null);
+        panelContenedorDeBotones.setMinimumSize(null);
+        panelContenedorDeBotones.setPreferredSize(null);
+
+        panelDeBotones.setMaximumSize(null);
+        panelDeBotones.setMinimumSize(null);
+        panelDeBotones.setPreferredSize(null);
+        panelDeBotones.setLayout(new java.awt.GridLayout(0, 3));
         panelContenedorDeBotones.add(panelDeBotones);
 
         ScrollPaneBotones.setViewportView(panelContenedorDeBotones);
@@ -47,16 +55,18 @@ public class VentanaReporteEstado extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(59, 59, 59)
                 .addComponent(scrollPaneArea, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(115, 115, 115)
-                .addComponent(ScrollPaneBotones, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
-                .addGap(107, 107, 107))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(labelArea, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(229, 229, 229))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(labelArea, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(191, 191, 191))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addComponent(ScrollPaneBotones, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(43, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -64,11 +74,9 @@ public class VentanaReporteEstado extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addComponent(labelArea, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(scrollPaneArea, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(ScrollPaneBotones, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(scrollPaneArea, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
+                    .addComponent(ScrollPaneBotones))
                 .addContainerGap(79, Short.MAX_VALUE))
         );
 
@@ -116,7 +124,6 @@ public class VentanaReporteEstado extends javax.swing.JFrame {
             Area areaSelec = null;
             for (Area area : modelo.getListaAreas()) {
                 if (area.getNombre().equals(nombre)) {
-
                     areaSelec = area;
                     porcentaje = (int) Math.floor(((float) area.getPresupuestoAnual() - (float) area.getPresupuestoRestante()) / (float) area.getPresupuestoAnual() * 100);
 
@@ -157,8 +164,8 @@ public class VentanaReporteEstado extends javax.swing.JFrame {
                 nuevo.setForeground(Color.WHITE);
                 nuevo.setText(emp.getNombre());
                 //Estetica de los botones
-                nuevo.setMaximumSize(new Dimension(90, 40));
-                nuevo.setPreferredSize(new Dimension(90, 40));
+                nuevo.setMaximumSize(new Dimension(110, 60));
+                nuevo.setPreferredSize(new Dimension(110, 60));
                 nuevo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true));
 
                 nuevo.addActionListener(new EmpleadoListener());
@@ -170,9 +177,23 @@ public class VentanaReporteEstado extends javax.swing.JFrame {
     private class EmpleadoListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-// este código se ejecutará al presionar el botón, obtengo cuál botón
+            
             JButton cual = ((JButton) e.getSource());
-// código a completar según el botón presionado
+            Empleado empleado=null;
+            String nombre = cual.getText();
+            for(Empleado emp: modelo.getListaEmpleados()){
+                if(emp.getNombre().equals(nombre)){
+                    empleado = emp;
+                }
+            }
+            
+           
+            JOptionPane.showMessageDialog(null,
+                   "Nombre: " +empleado.getNombre()+ "\n" +
+                   "Cedula: " +empleado.getCedula()+ "\n" +
+                   "Celular: " +empleado.getCedula()+ "\n" +
+                   "Manager: " +empleado.getManager()+ "\n" +
+                   "Salario: " +empleado.getSalario()+ "\n" ,"Información",1);
 
         //HAY QUE HACER EL CODIGO DE CUANDO APRETO EL BOTON DE EMPLEADO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         }

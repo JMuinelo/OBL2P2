@@ -197,12 +197,13 @@ public class VentanaRealMovArea extends javax.swing.JFrame {
         Empleado empleado = (Empleado) listaEmpleados.getSelectedValue();
         Area areaAct = (Area) listaArea.getSelectedValue();
         Area areaDestino = (Area) listaAreaDestino.getSelectedValue();
-        int diferencia = (13 - mes) * empleado.getSalario(); //13 para tener en cuenta el salario del mes actual
+         //13 para tener en cuenta el salario del mes actual
 
         if (empleado == null || areaAct == null || areaDestino == null) {
             JOptionPane.showMessageDialog(this, "Seleccione todos los campos", "Alerta", 2);
         } else {
 
+            int diferencia = (13 - mes) * empleado.getSalario();
             if (diferencia <= areaDestino.getPresupuestoRestante()) {
                 areaDestino.setPresupuestoRestante(areaDestino.getPresupuestoRestante() - diferencia);
                 areaAct.setPresupuestoRestante(areaAct.getPresupuestoRestante() + diferencia);
