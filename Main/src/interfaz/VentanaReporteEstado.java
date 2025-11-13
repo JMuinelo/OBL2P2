@@ -3,6 +3,9 @@ package interfaz;
 import dominio.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Collections;
+import java.util.HashSet;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 
 public class VentanaReporteEstado extends javax.swing.JFrame {
@@ -22,17 +25,23 @@ public class VentanaReporteEstado extends javax.swing.JFrame {
 
         labelArea = new javax.swing.JLabel();
         scrollPaneArea = new javax.swing.JScrollPane();
+        panelContenedor = new javax.swing.JPanel();
         panelArea = new javax.swing.JPanel();
         ScrollPaneBotones = new javax.swing.JScrollPane();
-        panelBotones = new javax.swing.JPanel();
+        panelContenedorDeBotones = new javax.swing.JPanel();
+        panelDeBotones = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        panelArea.setLayout(new java.awt.GridLayout(0, 1));
-        scrollPaneArea.setViewportView(panelArea);
+        panelArea.setLayout(new java.awt.GridLayout(0, 1, 0, 10));
+        panelContenedor.add(panelArea);
 
-        panelBotones.setLayout(new java.awt.GridLayout());
-        ScrollPaneBotones.setViewportView(panelBotones);
+        scrollPaneArea.setViewportView(panelContenedor);
+
+        panelDeBotones.setLayout(new java.awt.GridLayout(3, 0));
+        panelContenedorDeBotones.add(panelDeBotones);
+
+        ScrollPaneBotones.setViewportView(panelContenedorDeBotones);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -41,28 +50,26 @@ public class VentanaReporteEstado extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(59, 59, 59)
                 .addComponent(scrollPaneArea, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 263, Short.MAX_VALUE)
-                        .addComponent(labelArea, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(ScrollPaneBotones)
-                        .addContainerGap())))
+                .addGap(115, 115, 115)
+                .addComponent(ScrollPaneBotones, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                .addGap(107, 107, 107))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(labelArea, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(229, 229, 229))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(30, 30, 30)
+                .addComponent(labelArea, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(scrollPaneArea, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(96, 96, 96)
-                        .addComponent(labelArea, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ScrollPaneBotones, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(81, 81, 81)
-                        .addComponent(scrollPaneArea, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(91, Short.MAX_VALUE))
+                        .addComponent(ScrollPaneBotones, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
         setSize(new java.awt.Dimension(588, 395));
@@ -73,23 +80,25 @@ public class VentanaReporteEstado extends javax.swing.JFrame {
         for (Area area : modelo.getListaAreas()) {
             JButton nuevo = new JButton(" ");
             nuevo.setMargin(new Insets(-5, -5, -5, -5));
-            
+
             nuevo.setBackground(Color.GRAY);
-            int porcentaje = (int) Math.floor((area.getPresupuestoAnual()-area.getPresupuestoRestante())/area.getPresupuestoAnual()*100);
-            if(porcentaje>90){
+            int porcentaje = (int) Math.floor(((float) area.getPresupuestoAnual() - (float) area.getPresupuestoRestante()) / (float) area.getPresupuestoAnual() * 100);
+
+            if (porcentaje > 90) {
                 nuevo.setBackground(Color.RED);
-            }else{
-                if(porcentaje>=70){
-                   nuevo.setBackground(Color.YELLOW);
+            } else {
+                if (porcentaje >= 70) {
+                    nuevo.setBackground(Color.YELLOW);
                 }
             }
-            
+
             nuevo.setForeground(Color.WHITE);
-            nuevo.setText(area.getNombre()); 
-            
-            nuevo.setMaximumSize(new Dimension(50,40));
-            nuevo.setPreferredSize(new Dimension(50,40));
-            
+            nuevo.setText(area.getNombre());
+            //Estetica de los botones
+            nuevo.setMaximumSize(new Dimension(90, 40));
+            nuevo.setPreferredSize(new Dimension(90, 40));
+            nuevo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true));
+
             nuevo.addActionListener(new AreaListener());
             panelArea.add(nuevo);
         }
@@ -99,8 +108,73 @@ public class VentanaReporteEstado extends javax.swing.JFrame {
 
         public void actionPerformed(ActionEvent e) {
             // este código se ejecutará al presionar el botón, obtengo cuál botón
+            panelDeBotones.removeAll();
             JButton cual = ((JButton) e.getSource());
-            // código a completar según el botón presionado
+            String nombre = cual.getText();
+            int porcentaje = 0;
+
+            Area areaSelec = null;
+            for (Area area : modelo.getListaAreas()) {
+                if (area.getNombre().equals(nombre)) {
+
+                    areaSelec = area;
+                    porcentaje = (int) Math.floor(((float) area.getPresupuestoAnual() - (float) area.getPresupuestoRestante()) / (float) area.getPresupuestoAnual() * 100);
+
+                }
+            }
+
+            labelArea.setText(nombre + " " + porcentaje + "%");
+            Collections.sort(areaSelec.getListaEmpleado());
+
+            for (Empleado emp : areaSelec.getListaEmpleado()) {
+                JButton nuevo = new JButton(" ");
+                nuevo.setMargin(new Insets(-5, -5, -5, -5));
+
+                //para determinar color del boton
+                int min = Integer.MAX_VALUE;
+                int max = 0;
+
+                for (Empleado emp2 : areaSelec.getListaEmpleado()) {
+                    if (emp2.getSalario() < min) {
+                        min = emp2.getSalario();
+                    }
+                    if (emp2.getSalario() > max) {
+                        max = emp2.getSalario();
+                    }
+                }
+                Color colorBoton;
+                if (max != min) {
+                    float proporcion = ((float)emp.getSalario() - (float)min) / ((float)max - (float)min);
+                    int rgbAzul = (int) (255 * proporcion);
+                    colorBoton = new Color(0, 0, rgbAzul);
+                } else {
+                    colorBoton = new Color(0, 0, 255);
+                }
+
+                //
+                nuevo.setBackground(colorBoton);
+
+                nuevo.setForeground(Color.WHITE);
+                nuevo.setText(emp.getNombre());
+                //Estetica de los botones
+                nuevo.setMaximumSize(new Dimension(90, 40));
+                nuevo.setPreferredSize(new Dimension(90, 40));
+                nuevo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true));
+
+                nuevo.addActionListener(new EmpleadoListener());
+                panelDeBotones.add(nuevo);
+            }
+        }
+    }
+
+    private class EmpleadoListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+// este código se ejecutará al presionar el botón, obtengo cuál botón
+            JButton cual = ((JButton) e.getSource());
+// código a completar según el botón presionado
+
+        //HAY QUE HACER EL CODIGO DE CUANDO APRETO EL BOTON DE EMPLEADO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         }
     }
 
@@ -109,7 +183,9 @@ public class VentanaReporteEstado extends javax.swing.JFrame {
     private javax.swing.JScrollPane ScrollPaneBotones;
     private javax.swing.JLabel labelArea;
     private javax.swing.JPanel panelArea;
-    private javax.swing.JPanel panelBotones;
+    private javax.swing.JPanel panelContenedor;
+    private javax.swing.JPanel panelContenedorDeBotones;
+    private javax.swing.JPanel panelDeBotones;
     private javax.swing.JScrollPane scrollPaneArea;
     // End of variables declaration//GEN-END:variables
     private Sistema modelo;
