@@ -1,10 +1,11 @@
 
 package dominio;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class Area implements Comparable<Area>{
+public class Area implements Comparable<Area>, Serializable{
     private String nombre;
     private String descripcion;
     private int presupuestoAnual;

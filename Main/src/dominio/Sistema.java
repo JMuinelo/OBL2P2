@@ -1,27 +1,37 @@
 package dominio;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Observable;
 
 
-public class Sistema {
+public class Sistema extends Observable implements Serializable{
     private ArrayList<Empleado> listaEmpleados;
     private ArrayList<Area> listaAreas;
     private ArrayList<Manager> listaManagers;
     private ArrayList<Movimiento> listaMovimientos;
 
     public ArrayList<Empleado> getListaEmpleados() {
+        setChanged();
+        notifyObservers();
         return listaEmpleados;
     }
 
     public ArrayList<Area> getListaAreas() {
+        setChanged();
+        notifyObservers();
         return listaAreas;
     }
 
     public ArrayList<Manager> getListaManagers() {
+        setChanged();
+        notifyObservers();
         return listaManagers;
     }
 
     public ArrayList<Movimiento> getListaMovimientos() {
+        setChanged();
+        notifyObservers();
         return listaMovimientos;
     }
     

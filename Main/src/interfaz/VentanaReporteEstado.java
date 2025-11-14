@@ -3,13 +3,12 @@ package interfaz;
 import dominio.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.*;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
-public class VentanaReporteEstado extends javax.swing.JFrame {
+public class VentanaReporteEstado extends javax.swing.JFrame implements Observer {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaReporteEstado.class.getName());
 
@@ -110,6 +109,11 @@ public class VentanaReporteEstado extends javax.swing.JFrame {
             nuevo.addActionListener(new AreaListener());
             panelArea.add(nuevo);
         }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        this.cargarLista(modelo);
     }
 
     private class AreaListener implements ActionListener {

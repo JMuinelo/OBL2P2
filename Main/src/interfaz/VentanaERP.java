@@ -1,14 +1,29 @@
 package interfaz;
+
 import dominio.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.*;
 
 public class VentanaERP extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaERP.class.getName());
 
     public VentanaERP(Sistema sistema) {
         modelo = sistema;
         initComponents();
-        
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    FileOutputStream archivo = new FileOutputStream("sistema");
+                    ObjectOutputStream grabar = new ObjectOutputStream(archivo);
+                    grabar.writeObject(modelo);
+                    grabar.close();
+                }catch (IOException ex) {}
+            }
+        });
+
     }
 
     @SuppressWarnings("unchecked")
@@ -41,7 +56,7 @@ public class VentanaERP extends javax.swing.JFrame {
 
         jMenuItem1.setText("jMenuItem1");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("ERP Empresarial");
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -160,6 +175,11 @@ public class VentanaERP extends javax.swing.JFrame {
         menuReportes.add(reporteEstadoAreas);
 
         reporteMovimientos.setText("Reporte de Movimientos");
+        reporteMovimientos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reporteMovimientosActionPerformed(evt);
+            }
+        });
         menuReportes.add(reporteMovimientos);
 
         jMenuBar2.add(menuReportes);
@@ -230,7 +250,12 @@ public class VentanaERP extends javax.swing.JFrame {
         vent.setVisible(true);
     }//GEN-LAST:event_reporteEstadoAreasActionPerformed
 
-    
+    private void reporteMovimientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reporteMovimientosActionPerformed
+        VentanaReporteMovimientos vent = new VentanaReporteMovimientos(modelo);
+        vent.setVisible(true);
+    }//GEN-LAST:event_reporteMovimientosActionPerformed
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem areaAlta;
     private javax.swing.JMenuItem areaBaja;

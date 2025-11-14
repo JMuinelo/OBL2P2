@@ -1,8 +1,9 @@
-
 package dominio;
 
+import java.io.Serializable;
 
-public class Movimiento implements Comparable<Movimiento>{
+
+public class Movimiento implements Comparable<Movimiento>, Serializable{
     private int mes;
     private String areaOrigen;
     private String areaDestino;

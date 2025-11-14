@@ -1,7 +1,9 @@
 package dominio;
 
+import java.io.Serializable;
 
-public class Empleado implements Comparable<Empleado>{
+
+public class Empleado implements Comparable<Empleado>, Serializable{
     private String nombre;
     private String curriculum; //probablemente descartable
     private int salario;

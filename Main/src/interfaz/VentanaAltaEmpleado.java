@@ -4,9 +4,11 @@ import dominio.*;
 import grabarLeer.*;
 import java.io.File;
 import java.util.Collections;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JOptionPane;
 
-public class VentanaAltaEmpleado extends javax.swing.JFrame {
+public class VentanaAltaEmpleado extends javax.swing.JFrame implements Observer {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaAltaEmpleado.class.getName());
 
@@ -207,7 +209,7 @@ public class VentanaAltaEmpleado extends javax.swing.JFrame {
             comboManager.setSelectedItem(empleado.getManager());
 
             String nombreArch = "CV" + empleado.getCedula() + ".txt";
-            ArchivoLectura curr = new ArchivoLectura(System.getProperty("user.dir") + File.separator + "cvs"+"/"+nombreArch);
+            ArchivoLectura curr = new ArchivoLectura(System.getProperty("user.dir") + File.separator + "cvs" + "/" + nombreArch);
             curr.hayMasLineas();
             areaCurriculum.setText(curr.linea());
         }
@@ -223,14 +225,14 @@ public class VentanaAltaEmpleado extends javax.swing.JFrame {
         Manager manager = (Manager) comboManager.getSelectedItem();
 
         File cvs = new File(System.getProperty("user.dir") + File.separator + "cvs");
-        
+
         if (!cvs.exists()) {
             cvs.mkdir();
             //si no existe el directorio cvs lo crea;
         }
         String curriculum = areaCurriculum.getText();
         String nombreArch = "CV" + cedula + ".txt";
-        ArchivoGrabacion archCurriculum = new ArchivoGrabacion(System.getProperty("user.dir") + File.separator + "cvs"+"/"+nombreArch);
+        ArchivoGrabacion archCurriculum = new ArchivoGrabacion(System.getProperty("user.dir") + File.separator + "cvs" + "/" + nombreArch);
         archCurriculum.grabarLinea(curriculum);
         archCurriculum.cerrar();
 
@@ -296,4 +298,11 @@ public class VentanaAltaEmpleado extends javax.swing.JFrame {
     private javax.swing.JList listaEmpleados;
     // End of variables declaration//GEN-END:variables
     private Sistema modelo;
+
+    @Override
+    public void update(Observable o, Object arg) {
+        Collections.sort(modelo.getListaEmpleados());
+        listaEmpleados.setListData(modelo.getListaEmpleados().toArray());
+        comboArea.setModel(new javax.swing.DefaultComboBoxModel<>(modelo.getListaAreas().toArray()));
+    }
 }

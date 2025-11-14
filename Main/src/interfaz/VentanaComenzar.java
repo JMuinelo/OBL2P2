@@ -1,8 +1,14 @@
 package interfaz;
+
 import dominio.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import javax.swing.JOptionPane;
 
 public class VentanaComenzar extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaComenzar.class.getName());
 
     /**
@@ -40,6 +46,11 @@ public class VentanaComenzar extends javax.swing.JFrame {
         });
 
         jButton3.setText("Sistema con datos Precargados");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         botonGuardado.setText("Sistema Guardado");
         botonGuardado.addActionListener(new java.awt.event.ActionListener() {
@@ -88,7 +99,19 @@ public class VentanaComenzar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonGuardadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardadoActionPerformed
-        // TODO add your handling code here:
+        try {
+            FileInputStream archivo = new FileInputStream("sistema");
+            ObjectInputStream leer = new ObjectInputStream(archivo);
+            Sistema modelo = (Sistema) leer.readObject();
+            leer.close();
+
+            VentanaERP vent = new VentanaERP(modelo);
+            vent.setVisible(true);
+            dispose();
+        } catch (IOException | ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(this, "No hay un sistema guardado aún", "Error", 2);
+        }
+
     }//GEN-LAST:event_botonGuardadoActionPerformed
 
     private void botonNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoActionPerformed
@@ -97,10 +120,23 @@ public class VentanaComenzar extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_botonNuevoActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        FileInputStream archivo;
+        try {
+            archivo = new FileInputStream("sistemaPrecargado");
+            ObjectInputStream leer = new ObjectInputStream(archivo);
+            Sistema modelo = (Sistema) leer.readObject();
+            leer.close();
+            VentanaERP erp = new VentanaERP(modelo);
+            erp.setVisible(true);
+            dispose();
+        } catch (IOException | ClassNotFoundException ex) {}
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonGuardado;

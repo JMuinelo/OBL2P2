@@ -2,10 +2,12 @@ package interfaz;
 
 import dominio.*;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JOptionPane;
 
-public class VentanaRealMovArea extends javax.swing.JFrame {
+public class VentanaRealMovArea extends javax.swing.JFrame implements Observer{
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaRealMovArea.class.getName());
 
@@ -261,4 +263,16 @@ public class VentanaRealMovArea extends javax.swing.JFrame {
     private javax.swing.JSpinner spinnerMes;
     // End of variables declaration//GEN-END:variables
     private Sistema modelo;
+
+    @Override
+    public void update(Observable o, Object arg) {
+        Area areaSelec = (Area) listaArea.getSelectedValue();
+        listaEmpleados.setListData(areaSelec.getListaEmpleado().toArray());
+        listaArea.setListData(modelo.getListaAreas().toArray());
+        
+        listaArea.clearSelection();
+        listaArea.setSelectedValue(areaSelec,true);
+        
+        
+    }
 }
