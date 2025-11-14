@@ -1,6 +1,8 @@
 package interfaz;
 
 import dominio.*;
+import java.util.Collections;
+import java.util.Comparator;
 import javax.swing.JOptionPane;
 
 
@@ -12,6 +14,14 @@ public class VentanaAltaArea extends javax.swing.JFrame {
     public VentanaAltaArea(Sistema sistema) {
          modelo = sistema;
         initComponents();
+        
+        Collections.sort(modelo.getListaAreas(), 
+                new Comparator<Area>(){
+                    public int compare(Area a1,Area a2){
+                        return a1.getNombre().compareTo(a2.getNombre());
+                    }
+                });
+        
         listaAreas.setListData(modelo.getListaAreas().toArray());
     }
 

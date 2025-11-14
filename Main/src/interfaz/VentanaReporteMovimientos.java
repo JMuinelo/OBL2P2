@@ -1,8 +1,11 @@
 package interfaz;
 
 import dominio.*;
+import grabarLeer.ArchivoGrabacion;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
 
 public class VentanaReporteMovimientos extends javax.swing.JFrame {
@@ -50,13 +53,13 @@ public class VentanaReporteMovimientos extends javax.swing.JFrame {
         comboOrigen = new javax.swing.JComboBox();
         comboDestino = new javax.swing.JComboBox();
         comboEmpleado = new javax.swing.JComboBox();
+        filtrar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         radioMes = new javax.swing.JRadioButton();
         radioOrigen = new javax.swing.JRadioButton();
         radioDestino = new javax.swing.JRadioButton();
         radioEmpleado = new javax.swing.JRadioButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        exportar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Reporte de Movimientos");
@@ -85,6 +88,14 @@ public class VentanaReporteMovimientos extends javax.swing.JFrame {
 
         comboEmpleado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        filtrar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        filtrar.setText("Filtrar");
+        filtrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filtrarActionPerformed(evt);
+            }
+        });
+
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel6.setText(" Movimientos");
 
@@ -101,19 +112,11 @@ public class VentanaReporteMovimientos extends javax.swing.JFrame {
 
         radioEmpleado.setText("Empleado");
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton2.setText("Exportar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        exportar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        exportar.setText("Exportar");
+        exportar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton3.setText("Filtrar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                exportarActionPerformed(evt);
             }
         });
 
@@ -124,9 +127,9 @@ public class VentanaReporteMovimientos extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
@@ -135,7 +138,7 @@ public class VentanaReporteMovimientos extends javax.swing.JFrame {
                                     .addComponent(radioMes)
                                     .addComponent(radioDestino)
                                     .addComponent(radioEmpleado))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(2, 2, 2)
@@ -145,19 +148,15 @@ public class VentanaReporteMovimientos extends javax.swing.JFrame {
                                     .addComponent(comboEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(comboDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(53, 53, 53))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(filtrar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(exportar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(37, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(161, 161, 161)
                 .addComponent(jLabel6)
                 .addGap(36, 36, 36))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap(450, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(157, 157, 157)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,39 +187,107 @@ public class VentanaReporteMovimientos extends javax.swing.JFrame {
                                 .addComponent(comboDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(comboEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(41, 41, 41)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(31, 31, 31)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(filtrar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(exportar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(52, 52, 52))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(314, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(74, 74, 74)))
         );
 
         setSize(new java.awt.Dimension(733, 445));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void filtrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtrarActionPerformed
+        int mes = 0;
+        String aOrigen = "";
+        String aDestino = "";
+        String empleado = "";
+
+        ArrayList<Movimiento> listaAux = new ArrayList<Movimiento>();
+        for (Movimiento mov : modelo.getListaMovimientos()) {
+            boolean cumpleTodo = true;
+
+            if (radioMes.isSelected()) {
+                mes = (int) spinnerMes.getValue();
+                if (!(mov.getMes() == mes)) {
+                    cumpleTodo = false;
+                }
+            }
+            if (radioOrigen.isSelected()) {
+                aOrigen = "" + ((Area) comboOrigen.getSelectedItem()).getNombre();
+                if (!(mov.getAreaOrigen().equals(aOrigen))) {
+                    cumpleTodo = false;
+                }
+            }
+            if (radioDestino.isSelected()) {
+                aDestino = "" + ((Area) comboDestino.getSelectedItem()).getNombre();
+                if (!(mov.getAreaDestino().equals(aDestino))) {
+                    cumpleTodo = false;
+                }
+            }
+            if (radioEmpleado.isSelected()) {
+                empleado = "" + ((Empleado) comboEmpleado.getSelectedItem()).getNombre();
+                if (!(mov.getNombreEmpleado().equals(empleado))) {
+                    cumpleTodo = false;
+                }
+            }
+
+            if (cumpleTodo) {
+                listaAux.add(mov);
+            }
+        }
+
+        this.cargarTabla(listaAux);
+
+    }//GEN-LAST:event_filtrarActionPerformed
+
     private void radioOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioOrigenActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_radioOrigenActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void exportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportarActionPerformed
+        JFileChooser seleccionarArchivo = new JFileChooser();
+        seleccionarArchivo.showOpenDialog(seleccionarArchivo);
+        File archivo =seleccionarArchivo.getSelectedFile();
+        exportarCSV(modelo,archivo);
+    }//GEN-LAST:event_exportarActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    public void exportarCSV(Sistema modelo, File archivo/*ya con .csv*/) {
+        DefaultTableModel modeloTabla = (DefaultTableModel) tabla.getModel();
 
+        ArchivoGrabacion csv = new ArchivoGrabacion(archivo.getAbsolutePath());
+
+        String encabezado = "";
+        for (int i = 0; i < modeloTabla.getColumnCount(); i++) {
+            encabezado += modeloTabla.getColumnName(i);
+            if (!(i == modeloTabla.getColumnCount() - 1)) {
+                encabezado += ",";
+            }
+        }
+        csv.grabarLinea(encabezado);
+
+        for (int i = 0; i < modeloTabla.getRowCount(); i++) {
+            String linea = "";
+            for (int j = 0; j < modeloTabla.getColumnCount(); j++) {
+                linea += modeloTabla.getValueAt(i,j);
+                if (!(j == modeloTabla.getColumnCount() - 1)) {
+                    linea += ",";
+                }
+            }
+            csv.grabarLinea(linea);
+        }
+        
+        csv.cerrar();
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox comboDestino;
     private javax.swing.JComboBox comboEmpleado;
     private javax.swing.JComboBox comboOrigen;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton exportar;
+    private javax.swing.JButton filtrar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;

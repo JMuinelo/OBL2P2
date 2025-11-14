@@ -1,9 +1,10 @@
 package interfaz;
 
 import dominio.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
+
 import java.io.*;
+import javax.swing.JOptionPane;
 
 public class VentanaERP extends javax.swing.JFrame {
 
@@ -23,7 +24,27 @@ public class VentanaERP extends javax.swing.JFrame {
                 }catch (IOException ex) {}
             }
         });
+        
+        ////Este codigo podria tener que estar en todas las ventanas
+        capturarF1();
 
+    }
+    
+    
+    public void capturarF1(){
+        this.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent teclaCapturada){
+                if(teclaCapturada.getKeyCode()==KeyEvent.VK_F1){
+                    JOptionPane.showMessageDialog(null,
+                            "Autores: \n"
+                            + "Juan Martín Muinelo - Nro. 350499 \n"
+                            + "Dylan Martín Escobar - Nro. 357026",
+                            "Información de Autores",1);
+                }
+            }
+            
+        });
     }
 
     @SuppressWarnings("unchecked")
