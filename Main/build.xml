@@ -8,7 +8,17 @@
 <!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
 <!-- in the project's Project Properties dialog box.-->
 <project name="Main" default="default" basedir=".">
+
     <description>Builds, tests, and runs the project Main.</description>
+<target name="-pre-init">
+    <path id="classpath">
+        <pathelement location="lib/gson-2.10.1.jar"/>
+    </path>
+</target>
+
+<target name="-pre-compile">
+    <property name="javac.classpath" refid="classpath"/>
+</target>
     <import file="nbproject/build-impl.xml"/>
     <!--
 

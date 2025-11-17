@@ -1,12 +1,17 @@
 package interfaz;
 
+import com.google.gson.Gson;
 import dominio.*;
+import grabarLeer.*;
 import static interfaz.VentanaReporteInteligente.GeminiClient.llamarAGemini;
 import java.util.ArrayList;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 
 public class VentanaReporteInteligente extends javax.swing.JFrame {
 
@@ -35,6 +40,7 @@ public class VentanaReporteInteligente extends javax.swing.JFrame {
         textArea = new javax.swing.JTextArea();
         boton = new javax.swing.JToggleButton();
         imagen = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,6 +90,8 @@ public class VentanaReporteInteligente extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Respuesta:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -108,8 +116,7 @@ public class VentanaReporteInteligente extends javax.swing.JFrame {
                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(boton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                        .addComponent(boton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel3)
@@ -125,7 +132,9 @@ public class VentanaReporteInteligente extends javax.swing.JFrame {
                         .addGap(66, 66, 66))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 539, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 539, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(66, 66, 66))
         );
         layout.setVerticalGroup(
@@ -138,9 +147,9 @@ public class VentanaReporteInteligente extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -149,7 +158,9 @@ public class VentanaReporteInteligente extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(boton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19))
         );
@@ -170,7 +181,21 @@ public class VentanaReporteInteligente extends javax.swing.JFrame {
     }//GEN-LAST:event_listaAreaOrigenValueChanged
 
     private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
-        String prompt = "hola como estas";
+        Empleado emp = (Empleado)listaEmpleados.getSelectedValue();
+        ArchivoLectura archivo = new ArchivoLectura("cvs/CV"+emp.getCedula()+".txt");
+        String cv = "";
+        while(archivo.hayMasLineas()){
+            cv+=archivo.linea()+"\n";
+        }
+        archivo.cerrar();
+        String prompt = "Actúa como un analista experto en Recursos Humanos y gestión de talento"+
+                "\nTu tarea es analizar la viabilidad de un movimiento interno de un empleado, basándote exclusivamente en la información proporcionada." +
+                "\nQuiero que generes un reporte conciso de ventajas y desventajas"+
+                "\n**Información del Empleado: " +
+                "\nCurrículum:"+ cv +
+                "\n**Análisis del Movimiento:**" +
+                "\nÁrea de Origen: " + listaAreaOrigen.getSelectedValue() +
+                "\nÁrea de Destino: " + listaAreaDestino.getSelectedValue();
         String texto = "";
         try {
             texto = llamarAGemini(prompt);
@@ -181,10 +206,6 @@ public class VentanaReporteInteligente extends javax.swing.JFrame {
 
     }//GEN-LAST:event_botonActionPerformed
 
-    /*public static void llamarAGemini(){
-        GenerativeModel Model = new GenerativeModel.Builder().setModelName("gemini-2.5-flash").setApiKey(System.getenv("ERP_API_KEY")).build();
-                
-    }*/
     public class GeminiClient {
 
         private static final String API_KEY = "TU_API_KEY";
@@ -200,7 +221,7 @@ public class VentanaReporteInteligente extends javax.swing.JFrame {
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             
-            //Gson gson = new Gson();
+            Gson gson = new Gson();
             GeminiResponse geminiRespuesta = gson.fromJson(response.body(), GeminiResponse.class);
             try {
                 // Navegamos por la estructura:
@@ -247,6 +268,7 @@ public class VentanaReporteInteligente extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton boton;
     private javax.swing.JLabel imagen;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
