@@ -25,7 +25,7 @@ public class VentanaERP extends javax.swing.JFrame {
             }
         });
         
-        ////Este codigo podria tener que estar en todas las ventanas
+       
         capturarF1();
 
     }

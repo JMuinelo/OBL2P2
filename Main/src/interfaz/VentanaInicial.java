@@ -43,6 +43,9 @@ public class VentanaInicial extends javax.swing.JFrame {
         setBackground(new java.awt.Color(153, 153, 153));
         setUndecorated(true);
 
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/logo.jpg"))); // NOI18N
+
         jLabel3.setText("Dylan Martín Escobar");
 
         jLabel4.setText("Juan Martín Muinelo");

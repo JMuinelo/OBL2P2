@@ -137,6 +137,9 @@ public class VentanaAltaArea extends javax.swing.JFrame {
                if(presupuesto > 0&& modelo.validarNombre(nombre)){
                    Area area = new Area(nombre, desc, presupuesto);
                    modelo.getListaAreas().add(area);
+                   campoNombre.setText("");
+                   campoDescripcion.setText("");
+                   campoPresupuesto.setText("");
                }
                else{
                    JOptionPane.showMessageDialog(this,"El presupuesto debe ser mayor a 0 y el nombre debe ser único","Error",2);

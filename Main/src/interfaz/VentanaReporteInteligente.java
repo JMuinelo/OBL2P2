@@ -12,6 +12,8 @@ import java.net.http.HttpResponse;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
+import javax.swing.ImageIcon;
+import javax.swing.SwingWorker;
 
 public class VentanaReporteInteligente extends javax.swing.JFrame {
 
@@ -42,10 +44,11 @@ public class VentanaReporteInteligente extends javax.swing.JFrame {
         imagen = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Reporte Inteligente");
 
         listaAreaDestino.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { " " };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
@@ -69,11 +72,6 @@ public class VentanaReporteInteligente extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Area Destino");
 
-        listaEmpleados.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane3.setViewportView(listaEmpleados);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -97,7 +95,7 @@ public class VentanaReporteInteligente extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -114,28 +112,23 @@ public class VentanaReporteInteligente extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(56, 56, 56)
                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(boton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(boton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(94, 94, 94))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(61, 61, 61)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(61, 61, 61)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(17, 17, 17)
-                                .addComponent(imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(66, 66, 66))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 539, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(66, 66, 66))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,18 +147,22 @@ public class VentanaReporteInteligente extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(boton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(imagen, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(boton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(673, 608));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void listaAreaOrigenValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaAreaOrigenValueChanged
@@ -181,28 +178,45 @@ public class VentanaReporteInteligente extends javax.swing.JFrame {
     }//GEN-LAST:event_listaAreaOrigenValueChanged
 
     private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
-        Empleado emp = (Empleado)listaEmpleados.getSelectedValue();
-        ArchivoLectura archivo = new ArchivoLectura("cvs/CV"+emp.getCedula()+".txt");
+        imagen.setIcon(new ImageIcon(getClass().getResource("/Imagenes/reloj.png")));
+        Empleado emp = (Empleado) listaEmpleados.getSelectedValue();
+        ArchivoLectura archivo = new ArchivoLectura("cvs/CV" + emp.getCedula() + ".txt");
         String cv = "";
-        while(archivo.hayMasLineas()){
-            cv+=archivo.linea()+"\n";
+        while (archivo.hayMasLineas()) {
+            cv += archivo.linea() + "\n";
         }
         archivo.cerrar();
-        String prompt = "Actúa como un analista experto en Recursos Humanos y gestión de talento"+
-                "\nTu tarea es analizar la viabilidad de un movimiento interno de un empleado, basándote exclusivamente en la información proporcionada." +
-                "\nQuiero que generes un reporte conciso de ventajas y desventajas"+
-                "\n**Información del Empleado: " +
-                "\nCurrículum:"+ cv +
-                "\n**Análisis del Movimiento:**" +
-                "\nÁrea de Origen: " + listaAreaOrigen.getSelectedValue() +
-                "\nÁrea de Destino: " + listaAreaDestino.getSelectedValue();
+        String prompt = "Actúa como un analista experto en Recursos Humanos y gestión de talento"
+                + "\nTu tarea es analizar la viabilidad de un movimiento interno de un empleado, basándote exclusivamente en la información proporcionada."
+                + "\nQuiero que generes un reporte CONCISO (enfasis en conciso) de ventajas y desventajas a partir de su curriculum y el area del que viene/ a la que es transferido"
+                + "\n**Información del Empleado: "
+                + "\nCurrículum:" + cv
+                + "\n**Análisis del Movimiento:**"
+                + "\nÁrea de Origen: " + listaAreaOrigen.getSelectedValue()
+                + "\nÁrea de Destino: " + listaAreaDestino.getSelectedValue();
+        
         String texto = "";
-        try {
-            texto = llamarAGemini(prompt);
-            textArea.setText(texto);
-        } catch (Exception ex) {
-            textArea.setText("No se ha podido realizar la consulta");
-        }
+        SwingWorker<String, Void> worker = new SwingWorker<>() {//solo con swingworker se puede lograr que se vea la imagen en tiempo
+
+            @Override
+            protected String doInBackground() throws Exception {
+                return llamarAGemini(prompt);  
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    String texto = get();      
+                    textArea.setText(texto);
+                    imagen.setIcon(new ImageIcon(getClass().getResource("/Imagenes/tick.png")));
+                } catch (Exception e) {
+                    textArea.setText("No se pudo realizar la consulta");
+                }
+            }
+        };
+
+        worker.execute();
+
 
     }//GEN-LAST:event_botonActionPerformed
 
@@ -220,7 +234,7 @@ public class VentanaReporteInteligente extends javax.swing.JFrame {
                     .POST(HttpRequest.BodyPublishers.ofString(json))
                     .build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            
+
             Gson gson = new Gson();
             GeminiResponse geminiRespuesta = gson.fromJson(response.body(), GeminiResponse.class);
             try {
@@ -237,28 +251,36 @@ public class VentanaReporteInteligente extends javax.swing.JFrame {
         }
 
         private static class GeminiPart {
+
             String text;
+
             public String getText() {
                 return text;
             }
         }
 
         private static class GeminiContent {
+
             java.util.List<GeminiPart> parts;
+
             public java.util.List<GeminiPart> getParts() {
                 return parts;
             }
         }
 
         private static class GeminiCandidate {
+
             GeminiContent content;
+
             public GeminiContent getContent() {
                 return content;
             }
         }
 
         private static class GeminiResponse {
+
             java.util.List<GeminiCandidate> candidates;
+
             public java.util.List<GeminiCandidate> getCandidates() {
                 return candidates;
             }

@@ -164,6 +164,13 @@ public class VentanaAltaManager extends javax.swing.JFrame {
             Collections.sort(modelo.getListaManagers());
             listaManagers.setListData(modelo.getListaManagers().toArray());
             JOptionPane.showMessageDialog(this, "Se ha ingresado correctamente el Manager", "Aviso", 1);
+            
+            campoNombre.setText("");
+            campoCedula.setText("");
+            campoCelular.setText("");
+            spinnerAnt.setValue(1);
+            
+            
         }
     }//GEN-LAST:event_botonActionPerformed
 
