@@ -256,7 +256,7 @@ public class VentanaReporteMovimientos extends javax.swing.JFrame {
     public void exportarCSV(Sistema modelo, File archivo/*ya con .csv*/) {
         DefaultTableModel modeloTabla = (DefaultTableModel) tabla.getModel();
 
-        ArchivoGrabacion csv = new ArchivoGrabacion(archivo.getAbsolutePath());
+        ArchivoGrabacion csv = new ArchivoGrabacion(archivo.getAbsolutePath()+".csv");
 
         String encabezado = "";
         for (int i = 0; i < modeloTabla.getColumnCount(); i++) {
