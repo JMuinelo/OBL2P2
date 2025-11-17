@@ -233,7 +233,8 @@ public class VentanaERP extends javax.swing.JFrame {
     }//GEN-LAST:event_empleadoAltaActionPerformed
 
     private void reporteInteligenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reporteInteligenteActionPerformed
-        // TODO add your handling code here:
+        VentanaReporteInteligente vent = new VentanaReporteInteligente(modelo);
+        vent.setVisible(true);
     }//GEN-LAST:event_reporteInteligenteActionPerformed
 
     private void areaAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_areaAltaActionPerformed
