@@ -12,17 +12,40 @@ import java.net.http.HttpResponse;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.ImageIcon;
 import javax.swing.SwingWorker;
 
-public class VentanaReporteInteligente extends javax.swing.JFrame {
+public class VentanaReporteInteligente extends javax.swing.JFrame implements Observer{
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaReporteInteligente.class.getName());
 
     public VentanaReporteInteligente(Sistema sistema) {
         modelo = sistema;
         initComponents();
+        modelo.addObserver(this);
+        cargarAreasOrigen();
+    }
+    
+    public void cargarAreasOrigen(){
         listaAreaOrigen.setListData(modelo.getListaAreas().toArray());
+    }
+    
+    public void cargarEmpleados(){
+        if(areaSelect != null){
+           listaEmpleados.setListData(areaSelect.getListaEmpleado().toArray());
+        }
+    }
+    
+    public void cargarAreasDestino(){
+        ArrayList<Area> listaAreaAux = new ArrayList();
+        for (Area area : modelo.getListaAreas()) {
+            if (!area.equals(areaSelect)) {
+                listaAreaAux.add(area);
+            }
+        }
+        listaAreaDestino.setListData(listaAreaAux.toArray());
     }
 
     @SuppressWarnings("unchecked")
@@ -166,15 +189,8 @@ public class VentanaReporteInteligente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void listaAreaOrigenValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaAreaOrigenValueChanged
-        Area areaSelect = (Area) listaAreaOrigen.getSelectedValue();
-        listaEmpleados.setListData(areaSelect.getListaEmpleado().toArray());
-        ArrayList<Area> listaAreaAux = new ArrayList();
-        for (Area area : modelo.getListaAreas()) {
-            if (!area.equals(areaSelect)) {
-                listaAreaAux.add(area);
-            }
-        }
-        listaAreaDestino.setListData(listaAreaAux.toArray());
+        areaSelect = (Area) listaAreaOrigen.getSelectedValue();
+        cargarAreasDestino();
     }//GEN-LAST:event_listaAreaOrigenValueChanged
 
     private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
@@ -189,6 +205,7 @@ public class VentanaReporteInteligente extends javax.swing.JFrame {
         String prompt = "Actúa como un analista experto en Recursos Humanos y gestión de talento"
                 + "\nTu tarea es analizar la viabilidad de un movimiento interno de un empleado, basándote exclusivamente en la información proporcionada."
                 + "\nQuiero que generes un reporte CONCISO (enfasis en conciso) de ventajas y desventajas a partir de su curriculum y el area del que viene/ a la que es transferido"
+                + "\nConsiderar para el informe principalmente el curriculum para determinar si el empleado es apto para el area a la cual se lo quiere mover"
                 + "\n**Información del Empleado: "
                 + "\nCurrículum:" + cv
                 + "\n**Análisis del Movimiento:**"
@@ -286,6 +303,14 @@ public class VentanaReporteInteligente extends javax.swing.JFrame {
             }
         }
     }
+    
+    @Override
+    public void update(Observable o, Object arg){
+        cargarAreasOrigen();
+        cargarEmpleados();
+        cargarAreasDestino();
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton boton;
@@ -304,4 +329,5 @@ public class VentanaReporteInteligente extends javax.swing.JFrame {
     private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
     private Sistema modelo;
+    private Area areaSelect;
 }

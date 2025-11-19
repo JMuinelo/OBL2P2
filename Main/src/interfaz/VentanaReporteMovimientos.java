@@ -1,26 +1,27 @@
 package interfaz;
-
 import dominio.*;
 import grabarLeer.ArchivoGrabacion;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JFileChooser;
 import javax.swing.table.DefaultTableModel;
 
-public class VentanaReporteMovimientos extends javax.swing.JFrame {
+public class VentanaReporteMovimientos extends javax.swing.JFrame implements Observer{
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaReporteMovimientos.class.getName());
 
     public VentanaReporteMovimientos(Sistema sistema) {
         modelo = sistema;
         initComponents();
-        this.cargarTabla(modelo.getListaMovimientos());
-        this.cargarCombos(modelo);
-
+        modelo.addObserver(this);
+        cargarTabla(modelo.getListaMovimientos());
+        cargarCombos();
     }
 
-    public void cargarCombos(Sistema modelo) {
+    public void cargarCombos() {
         comboOrigen.setModel(new javax.swing.DefaultComboBoxModel<>(modelo.getListaAreas().toArray()));
         comboDestino.setModel(new javax.swing.DefaultComboBoxModel<>(modelo.getListaAreas().toArray()));
         comboEmpleado.setModel(new javax.swing.DefaultComboBoxModel<>(modelo.getListaEmpleados().toArray()));
@@ -199,6 +200,10 @@ public class VentanaReporteMovimientos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void filtrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtrarActionPerformed
+        cargarDatosTabla();
+    }//GEN-LAST:event_filtrarActionPerformed
+    
+    public void cargarDatosTabla(){
         int mes = 0;
         String aOrigen = "";
         String aDestino = "";
@@ -237,11 +242,9 @@ public class VentanaReporteMovimientos extends javax.swing.JFrame {
                 listaAux.add(mov);
             }
         }
-
-        this.cargarTabla(listaAux);
-
-    }//GEN-LAST:event_filtrarActionPerformed
-
+        cargarTabla(listaAux);
+    }
+    
     private void radioOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioOrigenActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_radioOrigenActionPerformed
@@ -277,9 +280,13 @@ public class VentanaReporteMovimientos extends javax.swing.JFrame {
             }
             csv.grabarLinea(linea);
         }
-        
         csv.cerrar();
-
+    }
+    
+    @Override
+    public void update(Observable o, Object arg){
+        cargarCombos();
+        cargarDatosTabla();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

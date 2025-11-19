@@ -4,21 +4,25 @@ import java.util.*;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JOptionPane;
 
-public class VentanaModificacionManager extends javax.swing.JFrame {
+public class VentanaModificacionManager extends javax.swing.JFrame implements Observer{
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaModificacionManager.class.getName());
-
     
     public VentanaModificacionManager(Sistema sistema) {
         modelo = sistema;
         initComponents();
-        listaManagers.setListData(modelo.getListaManagers().toArray());
+        modelo.addObserver(this);
+        cargarListaManagers();
         listaManagers.setSelectionModel(new DefaultListSelectionModel(){
             @Override
             public void clearSelection(){
                 
             }
         });
+    }
+    
+    public void cargarListaManagers(){
+        listaManagers.setListData(modelo.getListaManagers().toArray());
     }
     
     @SuppressWarnings("unchecked")
@@ -172,7 +176,7 @@ public class VentanaModificacionManager extends javax.swing.JFrame {
             Manager manager = (Manager)listaManagers.getSelectedValue();
             String celular = (String) campoTelefono.getText();
             if(modelo.esUnNumero(celular)){
-                manager.setCelular(celular);
+                modelo.modificarTelefonoManager(manager, celular);
                 JOptionPane.showMessageDialog(this, "Se ha modificado correctamente el manager: "+manager.getNombre(), "Aviso", 1);
             }
             else{
@@ -189,17 +193,28 @@ public class VentanaModificacionManager extends javax.swing.JFrame {
     }//GEN-LAST:event_listaManagersPropertyChange
 
     private void listaManagersValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaManagersValueChanged
+        cargarDatosManager();
+    }//GEN-LAST:event_listaManagersValueChanged
+    
+    public void cargarDatosManager(){
         Manager manager = (Manager)listaManagers.getSelectedValue();
         if(manager != null){
             labelNombre.setText(manager.getNombre());
             labelAntiguedad.setText(manager.getAntiguedad()+"");
             labelCedula.setText(manager.getCedula());
             campoTelefono.setText(manager.getCelular());
-            listaManagers.setListData(modelo.getListaManagers().toArray());
+            cargarListaManagers();
             labelACargo.setText( ""+ empleadosACargo(manager));
         }
-    }//GEN-LAST:event_listaManagersValueChanged
-
+    }
+    
+    @Override
+    public void update(Observable o, Object arg){
+        cargarDatosManager();
+        cargarDatosManager();
+        cargarListaManagers();
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton boton;
     private javax.swing.JTextField campoTelefono;

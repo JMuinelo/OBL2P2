@@ -2,10 +2,12 @@ package interfaz;
 
 import dominio.*;
 import java.util.Collections;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.*;
 
 
-public class VentanaAltaManager extends javax.swing.JFrame {
+public class VentanaAltaManager extends javax.swing.JFrame implements Observer{
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaAltaManager.class.getName());
 
@@ -13,9 +15,10 @@ public class VentanaAltaManager extends javax.swing.JFrame {
     public VentanaAltaManager(Sistema sistema) {
         modelo = sistema;
         initComponents();
+        modelo.addObserver(this);
         //para que no aparezcan item1 item2
         listaManagers.setModel(new DefaultListModel<>());
-        listaManagers.setListData(modelo.getListaManagers().toArray());
+        cargarListaManagers();
     }
 
     
@@ -159,10 +162,8 @@ public class VentanaAltaManager extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error: datos ingresados incorrectamente. Por favor, reingrese:","Error",2);
         }
         else{
-            //crear manager, tmb falta ordenar por antiguedad
-            modelo.getListaManagers().add(new  Manager(nombre, cedula,celular,antiguedad));
-            Collections.sort(modelo.getListaManagers());
-            listaManagers.setListData(modelo.getListaManagers().toArray());
+            modelo.agregarManager(new  Manager(nombre, cedula,celular,antiguedad));
+            cargarListaManagers();
             JOptionPane.showMessageDialog(this, "Se ha ingresado correctamente el Manager", "Aviso", 1);
             
             campoNombre.setText("");
@@ -173,9 +174,16 @@ public class VentanaAltaManager extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_botonActionPerformed
-
     
+    public void cargarListaManagers(){
+        Collections.sort(modelo.getListaManagers());
+        listaManagers.setListData(modelo.getListaManagers().toArray());
+    }
     
+    @Override
+    public void update(Observable o, Object arg){
+        cargarListaManagers();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton boton;

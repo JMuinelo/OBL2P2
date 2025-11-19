@@ -1,12 +1,12 @@
-
 package interfaz;
-
 import dominio.*;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JOptionPane;
 
 
-public class VentanaBajaArea extends javax.swing.JFrame {
+public class VentanaBajaArea extends javax.swing.JFrame implements Observer{
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaBajaArea.class.getName());
 
@@ -15,11 +15,11 @@ public class VentanaBajaArea extends javax.swing.JFrame {
      */
     public VentanaBajaArea(Sistema sistema) {
         modelo = sistema;
+        modelo.addObserver(this);
         initComponents();
-        listaAreas.setListData(listaAreasVacias(modelo).toArray());
+        cargarListaAreasVacias(modelo);
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -94,25 +94,28 @@ public class VentanaBajaArea extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
-        
         Area areaSelec = (Area)listaAreas.getSelectedValue();
         if(areaSelec!=null){
-            modelo.getListaAreas().remove(areaSelec);
+            modelo.eliminarArea(areaSelec);
         }
         JOptionPane.showMessageDialog(this, "Se ha eliminado correctamente el area indicada", "Aviso", 1);
-        listaAreas.setListData(listaAreasVacias(modelo).toArray());
+        cargarListaAreasVacias(modelo);
     }//GEN-LAST:event_botonActionPerformed
 
-    public static ArrayList<Area> listaAreasVacias(Sistema modelo){
+    public void cargarListaAreasVacias(Sistema modelo){
         ArrayList<Area> lista = new ArrayList<>();
         for(Area area: modelo.getListaAreas()){
             if(area.getListaEmpleado().size() == 0){
                 lista.add(area);
             }
         }
-        return lista;
+        listaAreas.setListData(lista.toArray());
     }
     
+    @Override
+    public void update(Observable o, Object arg){
+        cargarListaAreasVacias(modelo);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton boton;

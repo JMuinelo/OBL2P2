@@ -1,11 +1,11 @@
-
 package interfaz;
-
 import dominio.*;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.*;
 
 
-public class VentanaModificacionArea extends javax.swing.JFrame {
+public class VentanaModificacionArea extends javax.swing.JFrame implements Observer{
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaModificacionArea.class.getName());
 
@@ -14,14 +14,13 @@ public class VentanaModificacionArea extends javax.swing.JFrame {
      */
     public VentanaModificacionArea(Sistema sistema) {
         modelo = sistema;
+        modelo.addObserver(this);
         initComponents();
-        listaAreas.setListData(modelo.getListaAreas().toArray());
-        
+        cargarLista(modelo);
         //con este metodo hacemos que no se deseleccione el item de la lista al clickear en otro lado
         listaAreas.setSelectionModel(new DefaultListSelectionModel(){
             @Override
             public void clearSelection(){
-                
             }
         });
     }
@@ -146,12 +145,11 @@ public class VentanaModificacionArea extends javax.swing.JFrame {
         String nuevaDesc = campoDesc.getText();
         try{
             Area area = (Area)listaAreas.getSelectedValue();
-            area.setDescripcion(nuevaDesc);
+            modelo.modificarDescripcionArea(area, nuevaDesc);
         }
         catch( NullPointerException e){
             JOptionPane.showMessageDialog(this,"Error: Seleccione un Área para cambiar su Descripción","Error",2);
         }
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void listaAreasPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_listaAreasPropertyChange
@@ -159,16 +157,28 @@ public class VentanaModificacionArea extends javax.swing.JFrame {
     }//GEN-LAST:event_listaAreasPropertyChange
 
     private void listaAreasValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaAreasValueChanged
+        cargarDatos();
+    }//GEN-LAST:event_listaAreasValueChanged
+    
+    public void cargarDatos(){
         Area area = (Area)listaAreas.getSelectedValue();
         if(area != null){
             labelNombre.setText(area.getNombre());
             labelPresupuesto.setText(""+ area.getPresupuestoAnual());
             campoDesc.setText(area.getDescripcion());
-            listaAreas.setListData(modelo.getListaAreas().toArray());
+            //cargarLista(modelo);
         }
-    }//GEN-LAST:event_listaAreasValueChanged
-
+    }
     
+    public void cargarLista(Sistema modelo){
+        listaAreas.setListData(modelo.getListaAreas().toArray());
+    }
+    
+    @Override
+    public void update(Observable o, Object arg){
+        cargarLista(modelo);
+        cargarDatos();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField campoDesc;

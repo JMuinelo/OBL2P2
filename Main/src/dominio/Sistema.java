@@ -3,6 +3,7 @@ package dominio;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.*;
 
 
 public class Sistema extends Observable implements Serializable{
@@ -10,29 +11,86 @@ public class Sistema extends Observable implements Serializable{
     private ArrayList<Area> listaAreas;
     private ArrayList<Manager> listaManagers;
     private ArrayList<Movimiento> listaMovimientos;
-
+    
+    public void notificarCambios(){
+        this.setChanged();
+        this.notifyObservers();
+    }
+            
     public ArrayList<Empleado> getListaEmpleados() {
-        setChanged();
-        notifyObservers();
         return listaEmpleados;
+    }
+    
+    public void agregarEmpleado(Empleado empleado) {
+        this.listaEmpleados.add(empleado);
+        notificarCambios();
+    }
+    
+    public void modificarAreaEmpleado(Area area, Empleado empleado){
+        empleado.setArea(area);
+        notificarCambios();
+    }
+    
+    public void eliminarEmpleadoDeArea(Area area, Empleado empleado){
+        area.getListaEmpleado().remove(empleado);
+        notificarCambios();
+    }
+    
+    public void agregarEmpleadoAArea(Area area, Empleado empleado){
+        area.getListaEmpleado().add(empleado);
+        notificarCambios();
     }
 
     public ArrayList<Area> getListaAreas() {
-        setChanged();
-        notifyObservers();
         return listaAreas;
+    }
+    
+    public void agregarArea(Area area) {
+        this.listaAreas.add(area);
+        notificarCambios();
+    }
+    
+    public void eliminarArea(Area area) {
+        this.listaAreas.remove(area);
+        notificarCambios();
+    }
+    
+    public void modificarDescripcionArea(Area area, String descripcion){
+        area.setDescripcion(descripcion);
+        notificarCambios();
+    }
+    
+    public void modificarPresupuestoRestanteArea(Area area, int restante){
+        area.setPresupuestoRestante(restante);
+        notificarCambios();
     }
 
     public ArrayList<Manager> getListaManagers() {
-        setChanged();
-        notifyObservers();
         return listaManagers;
     }
-
+    
+    public void agregarManager(Manager manager) {
+        this.listaManagers.add(manager);
+        notificarCambios();
+    }
+    
+    public void eliminarManager(Manager manager) {
+        this.listaManagers.remove(manager);
+        notificarCambios();
+    }
+    
+    public void modificarTelefonoManager(Manager manager, String celular){
+        manager.setCelular(celular);
+        notificarCambios();
+    }
+    
     public ArrayList<Movimiento> getListaMovimientos() {
-        setChanged();
-        notifyObservers();
         return listaMovimientos;
+    }
+    
+    public void agregarMovimiento(Movimiento mov) {
+        this.listaMovimientos.add(mov);
+        notificarCambios();
     }
     
     public Sistema(){

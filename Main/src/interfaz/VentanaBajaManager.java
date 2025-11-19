@@ -1,16 +1,19 @@
 package interfaz;
 import dominio.*;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JOptionPane;
 
-public class VentanaBajaManager extends javax.swing.JFrame {
+public class VentanaBajaManager extends javax.swing.JFrame implements Observer{
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaBajaManager.class.getName());
     
     public VentanaBajaManager(Sistema sistema) {
         modelo = sistema;
         initComponents();
-        listaManagers.setListData(listaManagersVacios(modelo).toArray());
+        modelo.addObserver(this);
+        listaManagersVacios();
     }
     
     @SuppressWarnings("unchecked")
@@ -90,13 +93,13 @@ public class VentanaBajaManager extends javax.swing.JFrame {
     private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
         Manager managerSelect = (Manager)listaManagers.getSelectedValue();
         if(managerSelect != null){
-            modelo.getListaManagers().remove(managerSelect);
+            modelo.eliminarManager(managerSelect);
             JOptionPane.showMessageDialog(this, "Se ha eliminado correctamente el Manager", "Aviso", 1);
         }
-        listaManagers.setListData(listaManagersVacios(modelo).toArray());
+        listaManagersVacios();
     }//GEN-LAST:event_botonActionPerformed
     
-    public static ArrayList<Manager> listaManagersVacios(Sistema modelo){
+    public void listaManagersVacios(){
         ArrayList<Manager> lista = new ArrayList<>();
         for(int i = 0; i < modelo.getListaManagers().size(); i++){
             boolean tiene = false;
@@ -109,7 +112,12 @@ public class VentanaBajaManager extends javax.swing.JFrame {
                 lista.add(modelo.getListaManagers().get(i));
             }
         }
-        return lista;
+        listaManagers.setListData(lista.toArray());
+    }
+    
+    @Override
+    public void update(Observable o, Object arg){
+        listaManagersVacios();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

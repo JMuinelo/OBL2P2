@@ -8,7 +8,5 @@ public class Main {
         
         VentanaInicial vent = new VentanaInicial(modelo);
         vent.setVisible(true);
-        
     }
-    
 }

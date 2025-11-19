@@ -15,12 +15,25 @@ public class VentanaAltaEmpleado extends javax.swing.JFrame implements Observer 
     public VentanaAltaEmpleado(Sistema sistema) {
         modelo = sistema;
         initComponents();
+        modelo.addObserver(this);
         Collections.sort(modelo.getListaEmpleados());
+        cargarListaEmpleados(modelo);
+        cargarComboAreas();
+        cargarComboManagers();
+    }
+    
+    public void cargarListaEmpleados(Sistema modelo){
         listaEmpleados.setListData(modelo.getListaEmpleados().toArray());
+    }
+    
+    public void cargarComboAreas(){
         comboArea.setModel(new javax.swing.DefaultComboBoxModel<>(modelo.getListaAreas().toArray()));
+    }
+    
+    public void cargarComboManagers(){
         comboManager.setModel(new javax.swing.DefaultComboBoxModel<>(modelo.getListaManagers().toArray()));
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -199,7 +212,11 @@ public class VentanaAltaEmpleado extends javax.swing.JFrame implements Observer 
     }// </editor-fold>//GEN-END:initComponents
 
     private void listaEmpleadosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaEmpleadosValueChanged
-        Empleado empleado = (Empleado) listaEmpleados.getSelectedValue();
+        cargarDatosEmpleadoEnVentana();
+    }//GEN-LAST:event_listaEmpleadosValueChanged
+    
+    public void cargarDatosEmpleadoEnVentana(){
+       Empleado empleado = (Empleado) listaEmpleados.getSelectedValue();
         if (empleado != null) {
             campoNombre.setText(empleado.getNombre());
             campoCedula.setText(empleado.getCedula());
@@ -212,9 +229,9 @@ public class VentanaAltaEmpleado extends javax.swing.JFrame implements Observer 
             ArchivoLectura curr = new ArchivoLectura(System.getProperty("user.dir") + File.separator + "cvs" + "/" + nombreArch);
             curr.hayMasLineas();
             areaCurriculum.setText(curr.linea());
-        }
-    }//GEN-LAST:event_listaEmpleadosValueChanged
-
+        } 
+    }
+    
     private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
         //Agregar empleado
         String nombre = campoNombre.getText();
@@ -242,8 +259,8 @@ public class VentanaAltaEmpleado extends javax.swing.JFrame implements Observer 
             } else {
                 Empleado empleado = new Empleado(nombre, salario, manager, area, celular, cedula);
                 area.getListaEmpleado().add(empleado);
-                modelo.getListaEmpleados().add(empleado);
-                area.setPresupuestoRestante(area.getPresupuestoRestante() - empleado.getSalario() * 12);
+                modelo.agregarEmpleado(empleado);
+                modelo.modificarPresupuestoRestanteArea(area, (area.getPresupuestoRestante() - empleado.getSalario() * 12));
                 JOptionPane.showMessageDialog(this, "Se ha ingresado correctamente el Empleado", "Aviso", 1);
 
                 //limpio los forms
@@ -261,8 +278,8 @@ public class VentanaAltaEmpleado extends javax.swing.JFrame implements Observer 
             }
         }
         Collections.sort(modelo.getListaEmpleados());
-        listaEmpleados.setListData(modelo.getListaEmpleados().toArray());
-        comboArea.setModel(new javax.swing.DefaultComboBoxModel<>(modelo.getListaAreas().toArray()));
+        cargarListaEmpleados(modelo);
+        cargarComboAreas();
     }//GEN-LAST:event_botonActionPerformed
 
     private void boton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton2ActionPerformed
@@ -273,7 +290,14 @@ public class VentanaAltaEmpleado extends javax.swing.JFrame implements Observer 
         campoSalario.setText("");
         areaCurriculum.setText("");
     }//GEN-LAST:event_boton2ActionPerformed
-
+    
+    @Override
+    public void update(Observable o, Object arg){
+        cargarDatosEmpleadoEnVentana();
+        cargarListaEmpleados(modelo);
+        cargarComboAreas();
+        cargarComboManagers();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea areaCurriculum;
@@ -299,10 +323,4 @@ public class VentanaAltaEmpleado extends javax.swing.JFrame implements Observer 
     // End of variables declaration//GEN-END:variables
     private Sistema modelo;
 
-    @Override
-    public void update(Observable o, Object arg) {
-        Collections.sort(modelo.getListaEmpleados());
-        listaEmpleados.setListData(modelo.getListaEmpleados().toArray());
-        comboArea.setModel(new javax.swing.DefaultComboBoxModel<>(modelo.getListaAreas().toArray()));
-    }
 }

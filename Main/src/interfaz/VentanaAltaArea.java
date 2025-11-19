@@ -1,20 +1,25 @@
 package interfaz;
-
 import dominio.*;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JOptionPane;
 
 
-public class VentanaAltaArea extends javax.swing.JFrame {
+public class VentanaAltaArea extends javax.swing.JFrame implements Observer{
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaAltaArea.class.getName());
 
     
     public VentanaAltaArea(Sistema sistema) {
-         modelo = sistema;
+        modelo = sistema;
         initComponents();
-        
+        modelo.addObserver(this);
+        cargarListaDeAreas(modelo);
+    }
+
+    public void cargarListaDeAreas(Sistema modelo){
         Collections.sort(modelo.getListaAreas(), 
                 new Comparator<Area>(){
                     public int compare(Area a1,Area a2){
@@ -24,8 +29,6 @@ public class VentanaAltaArea extends javax.swing.JFrame {
         
         listaAreas.setListData(modelo.getListaAreas().toArray());
     }
-
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -136,7 +139,7 @@ public class VentanaAltaArea extends javax.swing.JFrame {
                presupuesto = Integer.parseInt(campoPresupuesto.getText());
                if(presupuesto > 0&& modelo.validarNombre(nombre)){
                    Area area = new Area(nombre, desc, presupuesto);
-                   modelo.getListaAreas().add(area);
+                   modelo.agregarArea(area);
                    campoNombre.setText("");
                    campoDescripcion.setText("");
                    campoPresupuesto.setText("");
@@ -150,9 +153,11 @@ public class VentanaAltaArea extends javax.swing.JFrame {
            }
            listaAreas.setListData(modelo.getListaAreas().toArray());
     }//GEN-LAST:event_botonActionPerformed
-
     
-    
+    @Override
+    public void update(Observable o, Object arg){
+        cargarListaDeAreas(modelo);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton boton;

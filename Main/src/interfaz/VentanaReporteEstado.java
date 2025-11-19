@@ -15,8 +15,9 @@ public class VentanaReporteEstado extends javax.swing.JFrame implements Observer
     public VentanaReporteEstado(Sistema sistema) {
         modelo = sistema;
         initComponents();
-        this.cargarLista(modelo);
-
+        modelo.addObserver(this);
+        nombreAreaSelect = "";
+        cargarAreas();
     }
 
     @SuppressWarnings("unchecked")
@@ -82,8 +83,8 @@ public class VentanaReporteEstado extends javax.swing.JFrame implements Observer
         setSize(new java.awt.Dimension(588, 395));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    public void cargarLista(Sistema modelo) {
-
+    public void cargarAreas() {
+        panelArea.removeAll();
         for (Area area : modelo.getListaAreas()) {
             JButton nuevo = new JButton(" ");
             nuevo.setMargin(new Insets(-5, -5, -5, -5));
@@ -111,77 +112,79 @@ public class VentanaReporteEstado extends javax.swing.JFrame implements Observer
         }
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        this.cargarLista(modelo);
-    }
 
     private class AreaListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            // este código se ejecutará al presionar el botón, obtengo cuál botón
             panelDeBotones.removeAll();
             JButton cual = ((JButton) e.getSource());
-            String nombre = cual.getText();
-            int porcentaje = 0;
-
-            Area areaSelec = null;
-            for (Area area : modelo.getListaAreas()) {
-                if (area.getNombre().equals(nombre)) {
-                    areaSelec = area;
-                    porcentaje = (int) Math.floor(((float) area.getPresupuestoAnual() - (float) area.getPresupuestoRestante()) / (float) area.getPresupuestoAnual() * 100);
-
-                }
-            }
-
-            labelArea.setText(nombre + " " + porcentaje + "%");
-            Collections.sort(areaSelec.getListaEmpleado());
-
-            for (Empleado emp : areaSelec.getListaEmpleado()) {
-                JButton nuevo = new JButton(" ");
-                nuevo.setMargin(new Insets(-5, -5, -5, -5));
-
-                //para determinar color del boton
-                int min = Integer.MAX_VALUE;
-                int max = 0;
-
-                for (Empleado emp2 : areaSelec.getListaEmpleado()) {
-                    if (emp2.getSalario() < min) {
-                        min = emp2.getSalario();
-                    }
-                    if (emp2.getSalario() > max) {
-                        max = emp2.getSalario();
-                    }
-                }
-                Color colorBoton;
-                if (max != min) {
-                    float proporcion = ((float)emp.getSalario() - (float)min) / ((float)max - (float)min);
-                    int rgbAzul = (int) (255 * proporcion);
-                    colorBoton = new Color(0, 0, rgbAzul);
-                } else {
-                    colorBoton = new Color(0, 0, 255);
-                }
-
-                //
-                nuevo.setBackground(colorBoton);
-
-                nuevo.setForeground(Color.WHITE);
-                nuevo.setText(emp.getNombre());
-                //Estetica de los botones
-                nuevo.setMaximumSize(new Dimension(110, 60));
-                nuevo.setPreferredSize(new Dimension(110, 60));
-                nuevo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true));
-
-                nuevo.addActionListener(new EmpleadoListener());
-                panelDeBotones.add(nuevo);
-            }
+            nombreAreaSelect = cual.getText();
+            cargarEmpleadosArea();
         }
+    }
+    
+    public void cargarEmpleadosArea(){
+        // este código se ejecutará al presionar el botón, obtengo cuál botón
+        panelDeBotones.removeAll();
+
+            if(nombreAreaSelect != ""){
+                int porcentaje = 0;
+
+                Area areaSelec = null;
+                for (Area area : modelo.getListaAreas()) {
+                    if (area.getNombre().equals(nombreAreaSelect)) {
+                        areaSelec = area;
+                        porcentaje = (int) Math.floor(((float) area.getPresupuestoAnual() - (float) area.getPresupuestoRestante()) / (float) area.getPresupuestoAnual() * 100);
+                    }
+                }
+
+                labelArea.setText(nombreAreaSelect + " " + porcentaje + "%");
+                Collections.sort(areaSelec.getListaEmpleado());
+
+                for (Empleado emp : areaSelec.getListaEmpleado()) {
+                    JButton nuevo = new JButton(" ");
+                    nuevo.setMargin(new Insets(-5, -5, -5, -5));
+
+                    //para determinar color del boton
+                    int min = Integer.MAX_VALUE;
+                    int max = 0;
+
+                    for (Empleado emp2 : areaSelec.getListaEmpleado()) {
+                        if (emp2.getSalario() < min) {
+                            min = emp2.getSalario();
+                        }
+                        if (emp2.getSalario() > max) {
+                            max = emp2.getSalario();
+                        }
+                    }
+                    Color colorBoton;
+                    if (max != min) {
+                        float proporcion = ((float)emp.getSalario() - (float)min) / ((float)max - (float)min);
+                        int rgbAzul = (int) (255 * proporcion);
+                        colorBoton = new Color(0, 0, rgbAzul);
+                    } else {
+                        colorBoton = new Color(0, 0, 255);
+                    }
+
+                    nuevo.setBackground(colorBoton);
+
+                    nuevo.setForeground(Color.WHITE);
+                    nuevo.setText(emp.getNombre());
+                    //Estetica de los botones
+                    nuevo.setMaximumSize(new Dimension(110, 60));
+                    nuevo.setPreferredSize(new Dimension(110, 60));
+                    nuevo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, true));
+
+                    nuevo.addActionListener(new EmpleadoListener());
+                    panelDeBotones.add(nuevo);
+                }
+            }
+            
     }
 
     private class EmpleadoListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            
             JButton cual = ((JButton) e.getSource());
             Empleado empleado=null;
             String nombre = cual.getText();
@@ -190,17 +193,24 @@ public class VentanaReporteEstado extends javax.swing.JFrame implements Observer
                     empleado = emp;
                 }
             }
-            
-           
             JOptionPane.showMessageDialog(null,
                    "Nombre: " +empleado.getNombre()+ "\n" +
                    "Cedula: " +empleado.getCedula()+ "\n" +
                    "Celular: " +empleado.getCedula()+ "\n" +
                    "Manager: " +empleado.getManager()+ "\n" +
                    "Salario: " +empleado.getSalario()+ "\n" ,"Información",1);
-
-        //HAY QUE HACER EL CODIGO DE CUANDO APRETO EL BOTON DE EMPLEADO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         }
+    }
+    
+    @Override
+    public void update(Observable o, Object arg) {
+        cargarAreas();
+        cargarEmpleadosArea();
+        panelArea.revalidate();
+        panelArea.repaint();
+        panelDeBotones.revalidate();
+        panelDeBotones.repaint();
+
     }
 
 
@@ -214,4 +224,5 @@ public class VentanaReporteEstado extends javax.swing.JFrame implements Observer
     private javax.swing.JScrollPane scrollPaneArea;
     // End of variables declaration//GEN-END:variables
     private Sistema modelo;
+    private String nombreAreaSelect;
 }

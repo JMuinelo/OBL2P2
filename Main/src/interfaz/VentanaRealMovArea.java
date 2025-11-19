@@ -1,5 +1,4 @@
 package interfaz;
-
 import dominio.*;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -11,14 +10,11 @@ public class VentanaRealMovArea extends javax.swing.JFrame implements Observer{
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaRealMovArea.class.getName());
 
-    /**
-     * Creates new form VentanaRealMovArea
-     */
     public VentanaRealMovArea(Sistema sistema) {
         modelo = sistema;
         initComponents();
-        listaArea.setListData(modelo.getListaAreas().toArray());
-
+        modelo.addObserver(this);
+        cargarAreasOrigen();
         listaArea.setSelectionModel(new DefaultListSelectionModel() {
             @Override
             public void clearSelection() {
@@ -38,9 +34,28 @@ public class VentanaRealMovArea extends javax.swing.JFrame implements Observer{
 
             }
         });
-
     }
-
+    
+    public void cargarAreasOrigen(){
+       listaArea.setListData(modelo.getListaAreas().toArray());
+    }
+    
+    public void cargarAreasDestino(){
+        Area areaSelec = (Area) listaArea.getSelectedValue();
+        
+        ArrayList<Area> listaAux = new ArrayList<>();
+        if(areaSelec != null){
+            for (Area area : modelo.getListaAreas()) {
+                if (!(area.getNombre().equals(areaSelec.getNombre()))) {
+                    listaAux.add(area);
+                }
+            }
+            
+        listaAreaDestino.setListData(listaAux.toArray());
+        listaEmpleados.setListData(areaSelec.getListaEmpleado().toArray());
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -175,19 +190,10 @@ public class VentanaRealMovArea extends javax.swing.JFrame implements Observer{
     }// </editor-fold>//GEN-END:initComponents
 
     private void listaAreaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaAreaValueChanged
-        Area areaSelec = (Area) listaArea.getSelectedValue();
-        ArrayList<Area> listaAux = new ArrayList<>();
-        for (Area area : modelo.getListaAreas()) {
-            if (!(area.getNombre().equals(areaSelec.getNombre()))) {
-                listaAux.add(area);
-            }
-        }
-        listaAreaDestino.setListData(listaAux.toArray());
-        listaEmpleados.setListData(areaSelec.getListaEmpleado().toArray());
+        cargarAreasDestino();
     }//GEN-LAST:event_listaAreaValueChanged
-
+    
     private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
-
         int mes = (int) spinnerMes.getValue();
         Empleado empleado = (Empleado) listaEmpleados.getSelectedValue();
         Area areaAct = (Area) listaArea.getSelectedValue();
@@ -196,46 +202,38 @@ public class VentanaRealMovArea extends javax.swing.JFrame implements Observer{
 
         if (empleado == null || areaAct == null || areaDestino == null) {
             JOptionPane.showMessageDialog(this, "Seleccione todos los campos", "Alerta", 2);
-        } else {
-
+        } 
+        else {
             int diferencia = (13 - mes) * empleado.getSalario();
             if (diferencia <= areaDestino.getPresupuestoRestante()) {
-                areaDestino.setPresupuestoRestante(areaDestino.getPresupuestoRestante() - diferencia);
-                areaAct.setPresupuestoRestante(areaAct.getPresupuestoRestante() + diferencia);
-                areaAct.getListaEmpleado().remove(empleado);
-                areaDestino.getListaEmpleado().add(empleado);
-                empleado.setArea(areaDestino);
+                modelo.modificarPresupuestoRestanteArea(areaDestino, (areaDestino.getPresupuestoRestante() - diferencia));
+                modelo.modificarPresupuestoRestanteArea(areaAct, (areaAct.getPresupuestoRestante() + diferencia));
+                modelo.eliminarEmpleadoDeArea(areaAct, empleado);
+                modelo.agregarEmpleadoAArea(areaDestino, empleado);
+                modelo.modificarAreaEmpleado(areaDestino, empleado);
                 JOptionPane.showMessageDialog(this, "Movimiento realizado con éxito", "Aviso", 1);
                 Movimiento movimiento = new Movimiento(mes,areaAct.getNombre(),areaDestino.getNombre(),empleado.getNombre());
-                modelo.getListaMovimientos().add(movimiento);
+                modelo.agregarMovimiento(movimiento);
 
-                Area areaSelec = (Area) listaArea.getSelectedValue();
-                ArrayList<Area> listaAux = new ArrayList<>();
-                ////
-                for (Area area : modelo.getListaAreas()) {
-                    if (!(area.getNombre().equals(areaSelec.getNombre()))) {
-                        listaAux.add(area);
-                    }
-                }
-////
-                listaArea.setListData(modelo.getListaAreas().toArray());
-                listaAreaDestino.setListData(listaAux.toArray());
-                listaEmpleados.setListData(areaSelec.getListaEmpleado().toArray());
+                cargarAreasOrigen();
+                cargarAreasDestino();
 
                 listaArea.clearSelection();
-                //listaEmpleados.clearSelection();
-
-            } else {
+            } 
+            else {
                 JOptionPane.showMessageDialog(this, "El Área " + areaDestino.getNombre() + " no tiene presupuesto suficiente ", "Alerta", 2);
             }
         }
-
-
     }//GEN-LAST:event_botonActionPerformed
 
     private void listaEmpleadosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaEmpleadosValueChanged
     }//GEN-LAST:event_listaEmpleadosValueChanged
-
+    
+    @Override
+    public void update(Observable o, Object arg){
+        cargarAreasOrigen();
+        cargarAreasDestino();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton boton;
@@ -256,16 +254,4 @@ public class VentanaRealMovArea extends javax.swing.JFrame implements Observer{
     private javax.swing.JSpinner spinnerMes;
     // End of variables declaration//GEN-END:variables
     private Sistema modelo;
-
-    @Override
-    public void update(Observable o, Object arg) {
-        Area areaSelec = (Area) listaArea.getSelectedValue();
-        listaEmpleados.setListData(areaSelec.getListaEmpleado().toArray());
-        listaArea.setListData(modelo.getListaAreas().toArray());
-        
-        listaArea.clearSelection();
-        listaArea.setSelectedValue(areaSelec,true);
-        
-        
-    }
 }
