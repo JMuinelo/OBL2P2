@@ -253,7 +253,7 @@ public class VentanaAltaEmpleado extends javax.swing.JFrame implements Observer 
         archCurriculum.grabarLinea(curriculum);
         archCurriculum.cerrar();
 
-        if (modelo.esUnNumero(cedula) && salario > 0 && modelo.cedulaValida(cedula) && modelo.verificarAtributosVacios(nombre, cedula, celular, curriculum)) {
+        if (modelo.esUnNumero(cedula) && salario > 0 && modelo.cedulaValida(cedula) && modelo.verificarAtributosVacios(nombre, cedula, celular, curriculum)&&area!=null &&manager!=null) {
             if (area.getPresupuestoRestante() < salario * 12) {
                 JOptionPane.showMessageDialog(this, "Error: Área con presupuesto insuficiente", "Error", 2);
             } else {

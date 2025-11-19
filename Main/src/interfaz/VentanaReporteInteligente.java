@@ -15,9 +15,10 @@ import com.google.gson.JsonParser;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
-public class VentanaReporteInteligente extends javax.swing.JFrame implements Observer{
+public class VentanaReporteInteligente extends javax.swing.JFrame implements Observer {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaReporteInteligente.class.getName());
 
@@ -28,18 +29,18 @@ public class VentanaReporteInteligente extends javax.swing.JFrame implements Obs
         cargarAreasOrigen();
         areaSelect = null;
     }
-    
-    public void cargarAreasOrigen(){
+
+    public void cargarAreasOrigen() {
         listaAreaOrigen.setListData(modelo.getListaAreas().toArray());
     }
-    
-    public void cargarEmpleados(){
-        if(areaSelect != null){
-           listaEmpleados.setListData(areaSelect.getListaEmpleado().toArray());
+
+    public void cargarEmpleados() {
+        if (areaSelect != null) {
+            listaEmpleados.setListData(areaSelect.getListaEmpleado().toArray());
         }
     }
-    
-    public void cargarAreasDestino(){
+
+    public void cargarAreasDestino() {
         ArrayList<Area> listaAreaAux = new ArrayList();
         for (Area area : modelo.getListaAreas()) {
             if (!area.equals(areaSelect)) {
@@ -191,56 +192,69 @@ public class VentanaReporteInteligente extends javax.swing.JFrame implements Obs
 
     private void listaAreaOrigenValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaAreaOrigenValueChanged
         Area areaElegida = (Area) listaAreaOrigen.getSelectedValue();
-        if(areaElegida != null){
+        if (areaElegida != null) {
             areaSelect = areaElegida;
         }
-        System.out.println("areaSelect en metodo listaAreaOrigen:"+((Area) listaAreaOrigen.getSelectedValue()));
+        System.out.println("areaSelect en metodo listaAreaOrigen:" + ((Area) listaAreaOrigen.getSelectedValue()));
         cargarAreasDestino();
         cargarEmpleados();
     }//GEN-LAST:event_listaAreaOrigenValueChanged
 
     private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
-        imagen.setIcon(new ImageIcon(getClass().getResource("/Imagenes/reloj.png")));
+
         Empleado emp = (Empleado) listaEmpleados.getSelectedValue();
-        ArchivoLectura archivo = new ArchivoLectura("cvs/CV" + emp.getCedula() + ".txt");
-        String cv = "";
-        while (archivo.hayMasLineas()) {
-            cv += archivo.linea() + "\n";
-        }
-        archivo.cerrar();
-        String prompt = "Actúa como un analista experto en Recursos Humanos y gestión de talento"
-                + "\nTu tarea es analizar la viabilidad de un movimiento interno de un empleado, basándote exclusivamente en la información proporcionada."
-                + "\nQuiero que generes un reporte CONCISO (enfasis en conciso) de ventajas y desventajas a partir de su curriculum y el area del que viene/ a la que es transferido"
-                + "\nConsiderar para el informe principalmente el curriculum para determinar si el empleado es apto para el area a la cual se lo quiere mover"
-                + "\n**Información del Empleado: "
-                + "\nCurrículum:" + cv
-                + "\n**Análisis del Movimiento:**"
-                + "\nÁrea de Origen: " + listaAreaOrigen.getSelectedValue()
-                + "\nÁrea de Destino: " + listaAreaDestino.getSelectedValue();
-        
-        String texto = "";
-        SwingWorker<String, Void> worker = new SwingWorker<>() {//solo con swingworker se puede lograr que se vea la imagen en tiempo
+        Area areaOrSel = (Area) listaAreaOrigen.getSelectedValue();
+        Area areaDeSel = (Area) listaAreaDestino.getSelectedValue();
 
-            @Override
-            protected String doInBackground() throws Exception {
-                return llamarAGemini(prompt);  
-            }
-
-            @Override
-            protected void done() {
-                try {
-                    String texto = get();      
-                    textArea.setText(texto);
-                    imagen.setIcon(new ImageIcon(getClass().getResource("/Imagenes/tick.png")));
-                } catch (Exception e) {
-                    textArea.setText("No se pudo realizar la consulta");
+        try {
+            if (!(areaOrSel == null || areaDeSel == null)) {
+                
+                ArchivoLectura archivo = new ArchivoLectura("cvs/CV" + emp.getCedula() + ".txt");
+                String cv = "";
+                while (archivo.hayMasLineas()) {
+                    cv += archivo.linea() + "\n";
                 }
+                archivo.cerrar();
+                String prompt = "Actúa como un analista experto en Recursos Humanos y gestión de talento"
+                        + "\nTu tarea es analizar la viabilidad de un movimiento interno de un empleado, basándote exclusivamente en la información proporcionada."
+                        + "\nQuiero que generes un reporte CONCISO (enfasis en conciso) de ventajas y desventajas a partir de su curriculum y el area del que viene/ a la que es transferido"
+                        + "\nConsiderar para el informe principalmente el curriculum para determinar si el empleado es apto para el area a la cual se lo quiere mover"
+                        + "\n**Información del Empleado: "
+                        + "\nCurrículum:" + cv
+                        + "\n**Análisis del Movimiento:**"
+                        + "\nÁrea de Origen: " + areaOrSel
+                        + "\nÁrea de Destino: " + areaDeSel;
+
+                String texto = "";
+
+                imagen.setIcon(new ImageIcon(getClass().getResource("/Imagenes/reloj.png")));
+
+                SwingWorker<String, Void> worker = new SwingWorker<>() {//solo con swingworker se puede lograr que se vea la imagen en tiempo
+
+                    @Override
+                    protected String doInBackground() throws Exception {
+                        return llamarAGemini(prompt);
+                    }
+
+                    @Override
+                    protected void done() {
+                        try {
+                            String texto = get();
+                            textArea.setText(texto);
+                            imagen.setIcon(new ImageIcon(getClass().getResource("/Imagenes/tick.png")));
+                        } catch (Exception e) {
+                            textArea.setText("No se pudo realizar la consulta");
+                        }
+                    }
+                };
+                worker.execute();
+            }else{
+                JOptionPane.showMessageDialog(this, "Seleccione todos los campos", "Error", 2);
             }
-        };
 
-        worker.execute();
-
-
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(this, "Seleccione todos los campos", "Error", 2);
+        }
     }//GEN-LAST:event_botonActionPerformed
 
     public class GeminiClient {
@@ -309,11 +323,11 @@ public class VentanaReporteInteligente extends javax.swing.JFrame implements Obs
             }
         }
     }
-    
+
     @Override
-    public void update(Observable o, Object arg){
+    public void update(Observable o, Object arg) {
         cargarAreasOrigen();
-        System.out.println("AreasSelect_:"+areaSelect);
+        System.out.println("AreasSelect_:" + areaSelect);
         cargarEmpleados();
         cargarAreasDestino();
     }
