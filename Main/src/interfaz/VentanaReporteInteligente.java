@@ -26,6 +26,7 @@ public class VentanaReporteInteligente extends javax.swing.JFrame implements Obs
         initComponents();
         modelo.addObserver(this);
         cargarAreasOrigen();
+        areaSelect = null;
     }
     
     public void cargarAreasOrigen(){
@@ -189,8 +190,13 @@ public class VentanaReporteInteligente extends javax.swing.JFrame implements Obs
     }// </editor-fold>//GEN-END:initComponents
 
     private void listaAreaOrigenValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaAreaOrigenValueChanged
-        areaSelect = (Area) listaAreaOrigen.getSelectedValue();
+        Area areaElegida = (Area) listaAreaOrigen.getSelectedValue();
+        if(areaElegida != null){
+            areaSelect = areaElegida;
+        }
+        System.out.println("areaSelect en metodo listaAreaOrigen:"+((Area) listaAreaOrigen.getSelectedValue()));
         cargarAreasDestino();
+        cargarEmpleados();
     }//GEN-LAST:event_listaAreaOrigenValueChanged
 
     private void botonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActionPerformed
@@ -307,9 +313,9 @@ public class VentanaReporteInteligente extends javax.swing.JFrame implements Obs
     @Override
     public void update(Observable o, Object arg){
         cargarAreasOrigen();
+        System.out.println("AreasSelect_:"+areaSelect);
         cargarEmpleados();
         cargarAreasDestino();
-        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
