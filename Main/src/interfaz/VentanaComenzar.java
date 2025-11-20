@@ -4,6 +4,7 @@ import dominio.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import javax.swing.JOptionPane;
 
@@ -126,13 +127,11 @@ public class VentanaComenzar extends javax.swing.JFrame {
             VentanaERP erp = new VentanaERP(modelo);
             erp.setVisible(true);
             dispose();
-        } catch (IOException | ClassNotFoundException ex) {}
-
+        }catch (IOException | ClassNotFoundException ex) {}
+ 
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonGuardado;
