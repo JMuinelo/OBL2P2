@@ -187,23 +187,6 @@ public class VentanaReporteInteligente extends javax.swing.JFrame implements Obs
                 .addContainerGap(62, Short.MAX_VALUE))
         );
 
-        ImageIcon originalIcon = new ImageIcon(getClass().getResource("/imagenes/relojAvanzar.gif"));
-        Image originalImage = originalIcon.getImage();
-
-        // Redimensionar cuando el JLabel ya tenga tamaño
-        imagen.addComponentListener(new java.awt.event.ComponentAdapter() {
-            @Override
-            public void componentResized(java.awt.event.ComponentEvent evt) {
-                int ancho = imagen.getWidth();
-                int alto = imagen.getHeight();
-
-                if (ancho > 0 && alto > 0) {
-                    Image scaled = originalImage.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
-                    imagen.setIcon(new ImageIcon(scaled));
-                }
-            }
-        });
-
         setSize(new java.awt.Dimension(673, 608));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents

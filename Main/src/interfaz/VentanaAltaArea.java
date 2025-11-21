@@ -23,7 +23,7 @@ public class VentanaAltaArea extends javax.swing.JFrame implements Observer{
         Collections.sort(modelo.getListaAreas(), 
                 new Comparator<Area>(){
                     public int compare(Area a1,Area a2){
-                        return a1.getNombre().compareTo(a2.getNombre());
+                        return (a1.getNombre().toUpperCase()).compareTo(a2.getNombre().toUpperCase());
                     }
                 });
         

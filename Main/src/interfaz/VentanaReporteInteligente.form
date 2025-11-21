@@ -235,9 +235,6 @@
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="imagen">
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="ImageIcon originalIcon = new ImageIcon(getClass().getResource(&quot;/imagenes/relojAvanzar.gif&quot;));&#xa;Image originalImage = originalIcon.getImage();&#xa;&#xa;// Redimensionar cuando el JLabel ya tenga tama&#xf1;o&#xa;imagen.addComponentListener(new java.awt.event.ComponentAdapter() {&#xa;    @Override&#xa;    public void componentResized(java.awt.event.ComponentEvent evt) {&#xa;        int ancho = imagen.getWidth();&#xa;        int alto = imagen.getHeight();&#xa;&#xa;        if (ancho &gt; 0 &amp;&amp; alto &gt; 0) {&#xa;            Image scaled = originalImage.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);&#xa;            imagen.setIcon(new ImageIcon(scaled));&#xa;        }&#xa;    }&#xa;});"/>
-      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
