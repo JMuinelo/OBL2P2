@@ -4,9 +4,11 @@ import dominio.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import javax.swing.JOptionPane;
+import main.Main;
 
 public class VentanaComenzar extends javax.swing.JFrame {
 
@@ -20,7 +22,6 @@ public class VentanaComenzar extends javax.swing.JFrame {
         initComponents();
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -118,20 +119,20 @@ public class VentanaComenzar extends javax.swing.JFrame {
     }//GEN-LAST:event_botonNuevoActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        FileInputStream archivo;
+        InputStream archivo;
         try {
-            archivo = new FileInputStream("sistemaPrecargado");
+            archivo = Main.class.getResourceAsStream("/sistemaPrecargado");
             ObjectInputStream leer = new ObjectInputStream(archivo);
             Sistema modelo = (Sistema) leer.readObject();
             leer.close();
             VentanaERP erp = new VentanaERP(modelo);
             erp.setVisible(true);
             dispose();
-        }catch (IOException | ClassNotFoundException ex) {}
- 
+        } catch (IOException | ClassNotFoundException ex) {
+        }
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonGuardado;

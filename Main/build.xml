@@ -10,16 +10,18 @@
 <project name="Main" default="default" basedir=".">
 
     <description>Builds, tests, and runs the project Main.</description>
-<target name="-pre-init">
-    <path id="classpath">
-        <pathelement location="lib/gson-2.10.1.jar"/>
-    </path>
-</target>
+    <target name="-pre-init">
+        <path id="classpath">
+            <pathelement location="lib/gson-2.10.1.jar"/>
+        </path>
+    </target>
 
-<target name="-pre-compile">
-    <property name="javac.classpath" refid="classpath"/>
-</target>
+    <target name="-pre-compile">
+        <property name="javac.classpath" refid="classpath"/>
+    </target>
     <import file="nbproject/build-impl.xml"/>
+    
+    
     <!--
 
     There exist several targets which are by default empty and which can be 
@@ -80,4 +82,28 @@
     nbproject/build-impl.xml file. 
 
     -->
+    
+    <target name="-post-jar">
+        <jar jarfile="${dist.jar}" update="true">
+
+            <!-- Incluir todas las librerías dentro del jar -->
+            <zipgroupfileset dir="lib">
+                <include name="**/*.jar"/>
+            </zipgroupfileset>
+
+            <!-- Incluir archivo sistemaPrecargado -->
+            <fileset dir="." includes="sistemaPrecargado"/>
+
+            <!-- Manifest con la clase principal -->
+            <manifest>
+                <attribute name="Main-Class" value="main.Main"/>
+            </manifest>
+
+        </jar>
+    </target>
+
+
+
+
+    
 </project>
